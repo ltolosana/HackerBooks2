@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Luis M Tolosana Simon. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+
+#define JSON_LOCAL_URL @"jsonLocalURL"
+#define JSON_NAME @"books_readable.json"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
