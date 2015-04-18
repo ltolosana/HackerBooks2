@@ -11,33 +11,36 @@
 @import Foundation;
 @import UIKit;
 
-@interface LMTBook : NSObject
+#import "_LMTBook.h"
 
-@property (copy, nonatomic) NSString *title;
-@property (strong, nonatomic) NSArray *authors;
-@property (strong, nonatomic) NSArray *tags;
-@property (nonatomic) BOOL isFavorite;
-@property (strong, nonatomic) NSURL *imageURL;
-@property (strong, nonatomic, readonly) UIImage *image;
-@property (strong, nonatomic) NSURL *pdfURL;
+@interface LMTBook: _LMTBook {}
+
+//@property (copy, nonatomic) NSString *title;
+//@property (strong, nonatomic) NSArray *authors;
+//@property (strong, nonatomic) NSArray *tags;
+//@property (nonatomic) BOOL isFavorite;
+//@property (strong, nonatomic) NSURL *imageURL;
+//@property (strong, nonatomic, readonly) UIImage *image;
+//@property (strong, nonatomic) NSURL *pdfURL;
 
 // Class methods
 +(instancetype) bookWithTitle:(NSString *) title
                       authors:(NSArray *) authors
                          tags:(NSArray *) tags
-                   isFavorite:(BOOL) isFavorite
+                   isFavorite:(NSNumber *) isFavorite
                      imageURL:(NSURL *) imageURL
-                       pdfURL:(NSURL *) pdfURL;
+                       pdfURL:(NSURL *) pdfURL
+                      context:(NSManagedObjectContext *) context;
 
-// Designated
--(id) initWithTitle:(NSString *) title
-            authors:(NSArray *) authors
-               tags:(NSArray *) tags
-         isFavorite:(BOOL) isFavorite
-           imageURL:(NSURL *) imageURL
-             pdfURL:(NSURL *) pdfURL;
+//// Designated
+//-(id) initWithTitle:(NSString *) title
+//            authors:(NSArray *) authors
+//               tags:(NSArray *) tags
+//         isFavorite:(BOOL) isFavorite
+//           imageURL:(NSURL *) imageURL
+//             pdfURL:(NSURL *) pdfURL;
 
 // Init from JSON
--(id) initWithDictionary:(NSDictionary *) dict;
+//-(id) initWithDictionary:(NSDictionary *) dict;
 
 @end

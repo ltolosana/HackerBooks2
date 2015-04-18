@@ -104,7 +104,7 @@
 */            
   /////////////////////////////
         
-            
+ 
             for (NSDictionary *dict in array) {
                 LMTBook *book = [[LMTBook alloc] initWithDictionary:dict];
                 
@@ -124,7 +124,7 @@
         _tags = [@[@"Favorites"] arrayByAddingObjectsFromArray:[[self.books valueForKeyPath:@"@distinctUnionOfArrays.tags"] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
         NSLog(@"%@", _tags);
     }
-    
+
     return self;
 }
 

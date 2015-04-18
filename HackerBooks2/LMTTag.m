@@ -10,4 +10,13 @@
 
 // Custom logic goes here.
 
++(instancetype) tagWithName:(NSString *) name context:(NSManagedObjectContext *) context{
+    
+    LMTTag *tag = [self insertInManagedObjectContext:context];
+    
+    tag.name = name;
+    
+    return tag;
+}
+
 @end
