@@ -35,105 +35,10 @@
     // Creamos datos chorras
     [self createDummyData];
     
+
     
-/*
-    NSError *error;
-    NSData *data = nil;
     
-    // Check if it's the first time we run the App
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    NSString *str = [def objectForKey:JSON_LOCAL_URL];
-    
-    if (str == nil) {
-        
-        // It's the first time
-        
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"]];
-        NSURLResponse *response = [[NSURLResponse alloc] init];
-        data = [NSURLConnection sendSynchronousRequest:request
-                                     returningResponse:&response
-                                                 error:&error];
-        
-        if (data != nil) {
-            
-            // Save JSONData in local documents
-            NSFileManager *fm = [NSFileManager defaultManager];
-            NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
-                                     inDomains:NSUserDomainMask] lastObject];
-            
-            // Append the name
-            url = [url URLByAppendingPathComponent:JSON_NAME];
-            
-            // Save
-            BOOL rc = [data writeToURL:url
-                               options:NSDataWritingAtomic
-                                 error:&error];
-            
-            if (rc == NO) {
-                NSLog(@"Error al guardar el JSON en la carpeta de documentos: %@", error.localizedDescription);
-            }else{
-                
-                // Save to NSUSERDEFAULTS, so no more First Time
-                [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
-                [def synchronize];
-                
-            }
-        }else{
-            // Failed to load JSON from internet
-            NSLog(@"No se puede cargar el JSON: %@", error.localizedDescription);
-            [[[UIAlertView alloc] initWithTitle:@"Error General"
-                                        message:@"No se puede cargar el JSON."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil, nil] show];
-            
-            
-        }
-    }else{
-        // Not the first time, so load JSON from local documents
-        NSFileManager *fm = [NSFileManager defaultManager];
-        
-        NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
-                                 inDomains:NSUserDomainMask] lastObject];
-        url = [url URLByAppendingPathComponent:JSON_NAME];
-        
-        data = [NSData dataWithContentsOfURL:url
-                                     options:NSDataReadingMappedIfSafe
-                                       error:&error];
-        if (data == nil) {
-            NSLog(@"Error al cargar el JSON de local, lo deberia cargar de la red");
-        }
-        
-    }
-    
-    NSArray *JSONObjects = [NSJSONSerialization JSONObjectWithData:data
-                                                           options:kNilOptions
-                                                             error:&error];
-    
-    if (JSONObjects != nil) {
-        
-        // Creating the model
-        LMTLibrary *library = [[LMTLibrary alloc] initWithArray:JSONObjects];
-        
-        // Detecting type of screen
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            
-            // iPad type
-            [self configureForPadWithModel:library];
-            
-        }else{
-            // iPhone type
-            [self configureForPhoneWithModel:library];
-        }
-        
-        
-        
-        
-    }else{
-        NSLog(@"Error al procesar JSON: %@", error.localizedDescription);
-    }
-    
- */
+ 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -165,7 +70,7 @@
 -(void) createDummyData{
     
     // Elimino datos anteriores
-    [self.stack zapAllData];
+//    [self.stack zapAllData];
     
     
     // Creamos nuevos objetos
@@ -199,10 +104,81 @@
 //    NSLog(@"Un libro:%@", book2);
     
     
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
+//    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
+    
+    NSError *error;
+    NSData *data = nil;
+    
+    // Check if it's the first time we run the App
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *str = [def objectForKey:JSON_LOCAL_URL];
+    
+    if (str == nil) {
+        
+        // It's the first time
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"]];
+        NSURLResponse *response = [[NSURLResponse alloc] init];
+        data = [NSURLConnection sendSynchronousRequest:request
+                                     returningResponse:&response
+                                                 error:&error];
+        
+        if (data != nil) {
+            
+//            // Save JSONData in local documents
+//            NSFileManager *fm = [NSFileManager defaultManager];
+//            NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
+//                                     inDomains:NSUserDomainMask] lastObject];
+//            
+//            // Append the name
+//            url = [url URLByAppendingPathComponent:JSON_NAME];
+//            
+//            // Save
+//            BOOL rc = [data writeToURL:url
+//                               options:NSDataWritingAtomic
+//                                 error:&error];
+//            
+//            if (rc == NO) {
+//                NSLog(@"Error al guardar el JSON en la carpeta de documentos: %@", error.localizedDescription);
+//            }else{
+            
+            // Todo ha salido bien, cogemos el JSON y cargamos los datos 
+            [self serializeJSONData:data];
+
+                // Save to NSUSERDEFAULTS, so no more First Time
+                [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+                [def synchronize];
+                
+//            }
+        }else{
+            // Failed to load JSON from internet
+            NSLog(@"No se puede cargar el JSON: %@", error.localizedDescription);
+            [[[UIAlertView alloc] initWithTitle:@"Error General"
+                                        message:@"No se puede cargar el JSON."
+                                       delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil, nil] show];
+            
+            
+        }
+//    }else{
+//        // Not the first time, so load JSON from local documents
+//        NSFileManager *fm = [NSFileManager defaultManager];
+//        
+//        NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
+//                                 inDomains:NSUserDomainMask] lastObject];
+//        url = [url URLByAppendingPathComponent:JSON_NAME];
+//        
+//        data = [NSData dataWithContentsOfURL:url
+//                                     options:NSDataReadingMappedIfSafe
+//                                       error:&error];
+//        if (data == nil) {
+//            NSLog(@"Error al cargar el JSON de local, lo deberia cargar de la red");
+//        }
+//        
+    }
     
     
-    [self serializeJSONData:data];
     
     // Buscar
     
@@ -248,20 +224,49 @@
     id JSONObjects = [NSJSONSerialization JSONObjectWithData:data
                                                      options:kNilOptions
                                                        error:&error];
+    //    if (JSONObjects == nil) {
+    //        // There was an error
+    //        NSLog(@"Error while parsing json data.\n%@", error);
+    //        //    self = nil;
+    //    }else if ([JSONObjects isKindOfClass:[NSArray class]]){
+    //        [self processJSONArray: JSONObjects];
+    //        //    [self setupNotifications];
+    //
+    //
+    //    }else{
+    //        // Should have been an NSArray
+    //        //    self = nil;
+    //
+    //    }
+    
+    
     if (JSONObjects == nil) {
-        // There was an error
-        NSLog(@"Error while parsing json data.\n%@", error);
-        //    self = nil;
-    }else if ([JSONObjects isKindOfClass:[NSArray class]]){
-        [self processJSONArray: JSONObjects];
-        //    [self setupNotifications];
         
+        NSLog(@"Error al procesar JSON: %@", error.localizedDescription);
+        
+    }else if ([JSONObjects isKindOfClass:[NSArray class]]){
+        
+        // Creating the model
+        [self processJSONArray: JSONObjects];
+        
+        // Detecting type of screen
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            
+            // iPad type
+            //            [self configureForPadWithModel:library];
+            
+        }else{
+            // iPhone type
+            //            [self configureForPhoneWithModel:library];
+        }
         
     }else{
         // Should have been an NSArray
         //    self = nil;
         
     }
+    
+    
 }
 
 -(void) processJSONArray:(NSArray *) array{

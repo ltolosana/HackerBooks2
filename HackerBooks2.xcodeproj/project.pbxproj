@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		600AE7E91AE2C64E0017C97F /* LMTBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 600AE7E11AE2C64E0017C97F /* LMTBookViewController.m */; };
+		600AE7EA1AE2C64E0017C97F /* LMTBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600AE7E21AE2C64E0017C97F /* LMTBookViewController.xib */; };
+		600AE7EB1AE2C64E0017C97F /* LMTBookViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600AE7E31AE2C64E0017C97F /* LMTBookViewControlleriPhone.xib */; };
+		600AE7EC1AE2C64E0017C97F /* LMTLibraryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 600AE7E51AE2C64E0017C97F /* LMTLibraryTableViewController.m */; };
+		600AE7ED1AE2C64E0017C97F /* LMTSimplePDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 600AE7E71AE2C64E0017C97F /* LMTSimplePDFViewController.m */; };
+		600AE7EE1AE2C64E0017C97F /* LMTSimplePDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 600AE7E81AE2C64E0017C97F /* LMTSimplePDFViewController.xib */; };
+		600AE7F11AE2C6C60017C97F /* AGTCoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 600AE7F01AE2C6C60017C97F /* AGTCoreDataTableViewController.m */; };
 		605BAECB1ADE56E200030015 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 605BAEC91ADE56E200030015 /* Model.xcdatamodeld */; };
 		605BAECE1ADE817B00030015 /* AGTCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 605BAECD1ADE817B00030015 /* AGTCoreDataStack.m */; };
 		605BAEDE1ADE8A8600030015 /* _LMTAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 605BAED11ADE8A8600030015 /* _LMTAnnotation.m */; };
@@ -44,6 +51,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		600AE7E01AE2C64E0017C97F /* LMTBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTBookViewController.h; sourceTree = "<group>"; };
+		600AE7E11AE2C64E0017C97F /* LMTBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTBookViewController.m; sourceTree = "<group>"; };
+		600AE7E21AE2C64E0017C97F /* LMTBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookViewController.xib; sourceTree = "<group>"; };
+		600AE7E31AE2C64E0017C97F /* LMTBookViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookViewControlleriPhone.xib; sourceTree = "<group>"; };
+		600AE7E41AE2C64E0017C97F /* LMTLibraryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTLibraryTableViewController.h; sourceTree = "<group>"; };
+		600AE7E51AE2C64E0017C97F /* LMTLibraryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTLibraryTableViewController.m; sourceTree = "<group>"; };
+		600AE7E61AE2C64E0017C97F /* LMTSimplePDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTSimplePDFViewController.h; sourceTree = "<group>"; };
+		600AE7E71AE2C64E0017C97F /* LMTSimplePDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTSimplePDFViewController.m; sourceTree = "<group>"; };
+		600AE7E81AE2C64E0017C97F /* LMTSimplePDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTSimplePDFViewController.xib; sourceTree = "<group>"; };
+		600AE7EF1AE2C6C60017C97F /* AGTCoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGTCoreDataTableViewController.h; sourceTree = "<group>"; };
+		600AE7F01AE2C6C60017C97F /* AGTCoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGTCoreDataTableViewController.m; sourceTree = "<group>"; };
 		605BAECA1ADE56E200030015 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		605BAECC1ADE817B00030015 /* AGTCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGTCoreDataStack.h; sourceTree = "<group>"; };
 		605BAECD1ADE817B00030015 /* AGTCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGTCoreDataStack.m; sourceTree = "<group>"; };
@@ -112,6 +130,8 @@
 		605BAECF1ADE818600030015 /* CoreDataAddon */ = {
 			isa = PBXGroup;
 			children = (
+				600AE7EF1AE2C6C60017C97F /* AGTCoreDataTableViewController.h */,
+				600AE7F01AE2C6C60017C97F /* AGTCoreDataTableViewController.m */,
 				605BAECC1ADE817B00030015 /* AGTCoreDataStack.h */,
 				605BAECD1ADE817B00030015 /* AGTCoreDataStack.m */,
 			);
@@ -244,6 +264,15 @@
 		60BDEDDB1ADC3D4B00F594D3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				600AE7E01AE2C64E0017C97F /* LMTBookViewController.h */,
+				600AE7E11AE2C64E0017C97F /* LMTBookViewController.m */,
+				600AE7E21AE2C64E0017C97F /* LMTBookViewController.xib */,
+				600AE7E31AE2C64E0017C97F /* LMTBookViewControlleriPhone.xib */,
+				600AE7E41AE2C64E0017C97F /* LMTLibraryTableViewController.h */,
+				600AE7E51AE2C64E0017C97F /* LMTLibraryTableViewController.m */,
+				600AE7E61AE2C64E0017C97F /* LMTSimplePDFViewController.h */,
+				600AE7E71AE2C64E0017C97F /* LMTSimplePDFViewController.m */,
+				600AE7E81AE2C64E0017C97F /* LMTSimplePDFViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -330,7 +359,10 @@
 			files = (
 				60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */,
 				60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */,
+				600AE7EE1AE2C64E0017C97F /* LMTSimplePDFViewController.xib in Resources */,
+				600AE7EB1AE2C64E0017C97F /* LMTBookViewControlleriPhone.xib in Resources */,
 				60BDEDA71ADC3C4B00F594D3 /* LaunchScreen.xib in Resources */,
+				600AE7EA1AE2C64E0017C97F /* LMTBookViewController.xib in Resources */,
 				60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,12 +386,16 @@
 				605BAEF51ADE8AE000030015 /* LMTPDF.m in Sources */,
 				60BDED9F1ADC3C4B00F594D3 /* main.m in Sources */,
 				605BAEF31ADE8AE000030015 /* LMTAuthor.m in Sources */,
+				600AE7E91AE2C64E0017C97F /* LMTBookViewController.m in Sources */,
 				605BAEE11ADE8A8600030015 /* _LMTLocalization.m in Sources */,
+				600AE7ED1AE2C64E0017C97F /* LMTSimplePDFViewController.m in Sources */,
 				605BAEF61ADE8AE000030015 /* LMTPhoto.m in Sources */,
 				605BAEDE1ADE8A8600030015 /* _LMTAnnotation.m in Sources */,
 				605BAEE21ADE8A8600030015 /* _LMTPDF.m in Sources */,
 				605BAECB1ADE56E200030015 /* Model.xcdatamodeld in Sources */,
+				600AE7F11AE2C6C60017C97F /* AGTCoreDataTableViewController.m in Sources */,
 				605BAECE1ADE817B00030015 /* AGTCoreDataStack.m in Sources */,
+				600AE7EC1AE2C64E0017C97F /* LMTLibraryTableViewController.m in Sources */,
 				60BDEDD21ADC3C9F00F594D3 /* LMTBook.m in Sources */,
 				60BDEDD31ADC3C9F00F594D3 /* LMTBookTableViewCell.m in Sources */,
 				605BAEF71ADE8AE000030015 /* LMTTag.m in Sources */,
