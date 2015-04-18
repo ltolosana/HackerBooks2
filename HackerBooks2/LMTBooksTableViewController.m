@@ -11,6 +11,8 @@
 #import "LMTBookTableViewCell.h"
 #import "LMTAuthor.h"
 #import "LMTTag.h"
+#import "LMTBookViewController.h"
+
 
 @interface LMTBooksTableViewController ()
 
@@ -35,6 +37,8 @@
 //             object:nil];
     
     [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor lightGrayColor]];
+    
+    self.title = @"Hackerbooks2";
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -88,6 +92,25 @@
 //    cell.title.text = @"Title";
 
     return cell;
+}
+
+
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    // Which book
+    LMTTag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
+                                                           ascending:YES];
+    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:indexPath.row];
+
+    // Create the controller
+    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
+    
+    // Push
+    [self.navigationController pushViewController:bookVC
+                                         animated:YES];
+    
+    
 }
 
 

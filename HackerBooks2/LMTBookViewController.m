@@ -9,6 +9,10 @@
 #import "LMTBookViewController.h"
 #import "LMTSimplePDFViewController.h"
 #import "LMTBook.h"
+#import "LMTAuthor.h"
+#import "LMTPhoto.h"
+#import "LMTTag.h"
+
 
 @interface LMTBookViewController ()
 
@@ -72,65 +76,65 @@
 }
 
 #pragma mark - Actions
--(IBAction)displayPDF:(id)sender{
-    
-    NSLog(@"Nos muestra el pdf:%@", self.model.pdfURL);
-    
-    // Create a pdfVC
-    LMTSimplePDFViewController *pdfVC = [[LMTSimplePDFViewController alloc] initWithModel:self.model];
-    
-    // Push
-    [self.navigationController pushViewController:pdfVC
-                                         animated:YES];
-    
-}
+//-(IBAction)displayPDF:(id)sender{
+//    
+//    NSLog(@"Nos muestra el pdf:%@", self.model.pdfURL);
+//    
+//    // Create a pdfVC
+//    LMTSimplePDFViewController *pdfVC = [[LMTSimplePDFViewController alloc] initWithModel:self.model];
+//    
+//    // Push
+//    [self.navigationController pushViewController:pdfVC
+//                                         animated:YES];
+//    
+//}
 
--(IBAction)changeToFavorite:(id)sender{
-    
-    if ([sender isOn]) {
-        self.model.isFavorite = YES;
-        NSLog(@"%@: Favorite = YES", self.model.title);
-    }else{
-        self.model.isFavorite = NO;
-        NSLog(@"%@: Favorite = NO", self.model.title);
-    }
-    
-    ///////////////// Esto tiene que estar aqui, porque de la forma que esta implementado, si lo pongo en la notificacion
-    ///////////////// se recarga la tabla antes de que se actualicen el estado de favorito del libro en NSUSERDEFAULTS
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    NSArray *favs = [def objectForKey:FAVORITES];
-    if (!favs) {
-        favs = @[];
-    }
-    NSMutableArray *mut = [favs mutableCopy];
-    
-//    LMTBook *b = [notification.userInfo objectForKey:MODEL_KEY];
-    // Check if book is favorite or not
-    
-    if (self.model.isFavorite == YES) {
-        
-        //Meto el titulo del libro como favorito en userdefaults
-        [mut addObject:self.model.title];
-        
-    }else{
-        
-        // Borro el titulo del array de favoritos
-        [mut removeObject:self.model.title];
-        
-    }
-    [def setObject:mut forKey:FAVORITES];
-    [def synchronize];
-    /////////////////////////
-    
-    // Send notification to inform book changed favorite state
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
-    NSDictionary *dict = @{MODEL_KEY : self.model};
-    NSNotification *n = [NSNotification notificationWithName:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
-                                                      object:self
-                                                    userInfo:dict];
-    [nc postNotification:n];
-}
+//-(IBAction)changeToFavorite:(id)sender{
+//    
+//    if ([sender isOn]) {
+//        self.model.isFavorite = YES;
+//        NSLog(@"%@: Favorite = YES", self.model.title);
+//    }else{
+//        self.model.isFavorite = NO;
+//        NSLog(@"%@: Favorite = NO", self.model.title);
+//    }
+//    
+//    ///////////////// Esto tiene que estar aqui, porque de la forma que esta implementado, si lo pongo en la notificacion
+//    ///////////////// se recarga la tabla antes de que se actualicen el estado de favorito del libro en NSUSERDEFAULTS
+//    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+//    NSArray *favs = [def objectForKey:FAVORITES];
+//    if (!favs) {
+//        favs = @[];
+//    }
+//    NSMutableArray *mut = [favs mutableCopy];
+//    
+////    LMTBook *b = [notification.userInfo objectForKey:MODEL_KEY];
+//    // Check if book is favorite or not
+//    
+//    if (self.model.isFavorite == YES) {
+//        
+//        //Meto el titulo del libro como favorito en userdefaults
+//        [mut addObject:self.model.title];
+//        
+//    }else{
+//        
+//        // Borro el titulo del array de favoritos
+//        [mut removeObject:self.model.title];
+//        
+//    }
+//    [def setObject:mut forKey:FAVORITES];
+//    [def synchronize];
+//    /////////////////////////
+//    
+//    // Send notification to inform book changed favorite state
+//    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+//    
+//    NSDictionary *dict = @{MODEL_KEY : self.model};
+//    NSNotification *n = [NSNotification notificationWithName:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
+//                                                      object:self
+//                                                    userInfo:dict];
+//    [nc postNotification:n];
+//}
 
 
 #pragma mark - UISplitViewControllerDelegate
@@ -196,11 +200,21 @@
 #pragma mark - Utils
 -(void) syncViewWithModel{
     self.titleLabel.text = self.model.title;
-    self.authorsLabel.text = [@"By: " stringByAppendingString:[self.model.authors componentsJoinedByString:@", "]];
-    self.tagsLabel.text = [@"About: " stringByAppendingString:[self.model.tags componentsJoinedByString:@", "]];
+    
+    NSArray *arrAuthors = [[[self.model.authors allObjects] valueForKey:LMTAuthorAttributes.name] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    
+    self.authorsLabel.text = [@"By: " stringByAppendingString:[arrAuthors componentsJoinedByString:@", "]];
+
+//    NSArray *arrTags = [[[self.model.tags allObjects] valueForKey:LMTTagAttributes.name] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *arrTags = [[[self.model.tags allObjects] valueForKey:LMTTagAttributes.name] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+
+    NSMutableArray *arrTagsCopy = [arrTags mutableCopy];
+    [arrTagsCopy removeObject:FAVORITES];
+
+    self.tagsLabel.text = [@"About: " stringByAppendingString:[arrTagsCopy componentsJoinedByString:@", "]];
     [self.isFavoriteSwitch setOn:self.model.isFavorite];
-//    self.photoView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.model.imageURL]];
-    self.photoView.image = self.model.image;
+////    self.photoView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.model.imageURL]];
+    self.photoView.image = self.model.photo.image;
     
     self.title = self.model.title;
 

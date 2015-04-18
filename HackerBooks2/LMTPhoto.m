@@ -20,6 +20,8 @@
 
 -(UIImage *) image{
     
+    NSLog(@"Mostramos la foto: %@", self.photoURL);
+    
     // convertir la NSData en UIImage
     
     [self withDataURL:[NSURL URLWithString:self.photoURL]

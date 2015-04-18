@@ -43,7 +43,7 @@
                                                          ascending:YES
                                                           selector:@selector(compare:)]];
     
-//    req.fetchBatchSize = 20;
+    req.fetchBatchSize = 20;
     
     NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
                                                                           managedObjectContext:self.stack.context
@@ -53,8 +53,9 @@
     
     LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
                                                                                                            style:UITableViewStylePlain];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:booksVC];
     
-    self.window.rootViewController = booksVC;
+    self.window.rootViewController = navVC;
     
  
     self.window.backgroundColor = [UIColor whiteColor];
