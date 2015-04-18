@@ -41,7 +41,7 @@
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
                                                          ascending:YES
-                                                          selector:@selector(caseInsensitiveCompare:)]];
+                                                          selector:@selector(compare:)]];
     
 //    req.fetchBatchSize = 20;
     

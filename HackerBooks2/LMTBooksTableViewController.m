@@ -42,6 +42,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
@@ -52,12 +53,19 @@
 
 }
 
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 70;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
    
-    //Which book
+    // Which book
     LMTTag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.section];
-    
-    LMTBook *book = [[tag.books allObjects] objectAtIndex:indexPath.row];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
+                                                           ascending:YES];
+    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:indexPath.row];
     
 //    LMTBook *book = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
@@ -82,10 +90,21 @@
     return cell;
 }
 
--(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 70;
-}
+
+//-(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    
+//    
+//    
+////    if (section == 0) {
+////        //Favorites Books
+////        return @"Favoritos";
+////    }else{
+////        return [self.model.tags objectAtIndex:section];
+////    }
+//
+//    return [[self.fetchedResultsController.fetchedObjects objectAtIndex:section] name];
+//    
+//}
 
 
 @end
