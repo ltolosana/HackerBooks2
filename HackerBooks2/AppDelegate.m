@@ -14,6 +14,7 @@
 #import "LMTBook.h"
 #import "LMTTag.h"
 #import "LMTAuthor.h"
+#import "LMTBooksTableViewController.h"
 
 
 @interface AppDelegate ()
@@ -36,7 +37,24 @@
     [self createDummyData];
     
 
+    ////////// Pruebas
+    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
+                                                         ascending:YES
+                                                          selector:@selector(caseInsensitiveCompare:)]];
     
+//    req.fetchBatchSize = 20;
+    
+    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+                                                                          managedObjectContext:self.stack.context
+                                                                            sectionNameKeyPath:LMTTagAttributes.name
+                                                                                    cacheName:nil];
+    
+    
+    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
+                                                                                                           style:UITableViewStylePlain];
+    
+    self.window.rootViewController = booksVC;
     
  
     self.window.backgroundColor = [UIColor whiteColor];
