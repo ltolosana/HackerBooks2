@@ -28,9 +28,12 @@
                       authors:(NSArray *) authors
                          tags:(NSArray *) tags
                    isFavorite:(NSNumber *) isFavorite
-                     imageURL:(NSURL *) imageURL
-                       pdfURL:(NSURL *) pdfURL
+                     imageURL:(NSString *) imageURL
+                       pdfURL:(NSString *) pdfURL
                       context:(NSManagedObjectContext *) context;
+
++(instancetype) bookWithDictionary:(NSDictionary *) dict
+                           context:(NSManagedObjectContext *) context;
 
 //// Designated
 //-(id) initWithTitle:(NSString *) title

@@ -31,15 +31,12 @@
 }
 
 #pragma mark - Class Methods
-+(instancetype) photoWithURL:(NSURL *) photoURL context:(NSManagedObjectContext *) context{
++(instancetype) photoWithURL:(NSString *) photoURL context:(NSManagedObjectContext *) context{
     
     LMTPhoto *p = [self insertInManagedObjectContext:context];
-                   
-    NSError *err = nil;
-    p.photoURL = [NSString stringWithContentsOfURL:photoURL
-                                          encoding:NSUTF8StringEncoding
-                                             error:&err ];
     
+    p.photoURL = photoURL;
+
     return p;
 }
 

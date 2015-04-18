@@ -4,6 +4,7 @@
 @import CoreData;
 
 extern const struct LMTBookAttributes {
+	__unsafe_unretained NSString *isFavorite;
 	__unsafe_unretained NSString *title;
 } LMTBookAttributes;
 
@@ -29,6 +30,14 @@ extern const struct LMTBookRelationships {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) LMTBookID* objectID;
+
+@property (nonatomic, strong) NSNumber* isFavorite;
+
+@property (atomic) BOOL isFavoriteValue;
+- (BOOL)isFavoriteValue;
+- (void)setIsFavoriteValue:(BOOL)value_;
+
+//- (BOOL)validateIsFavorite:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* title;
 
@@ -81,6 +90,12 @@ extern const struct LMTBookRelationships {
 @end
 
 @interface _LMTBook (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveIsFavorite;
+- (void)setPrimitiveIsFavorite:(NSNumber*)value;
+
+- (BOOL)primitiveIsFavoriteValue;
+- (void)setPrimitiveIsFavoriteValue:(BOOL)value_;
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;

@@ -27,16 +27,9 @@
 		60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDA31ADC3C4B00F594D3 /* Images.xcassets */; };
 		60BDEDA71ADC3C4B00F594D3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDA51ADC3C4B00F594D3 /* LaunchScreen.xib */; };
 		60BDEDB31ADC3C4B00F594D3 /* HackerBooks2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDB21ADC3C4B00F594D3 /* HackerBooks2Tests.m */; };
-		60BDEDC51ADC3C7E00F594D3 /* LMTBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDBD1ADC3C7E00F594D3 /* LMTBookViewController.m */; };
-		60BDEDC61ADC3C7E00F594D3 /* LMTBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDBE1ADC3C7E00F594D3 /* LMTBookViewController.xib */; };
-		60BDEDC71ADC3C7E00F594D3 /* LMTBookViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDBF1ADC3C7E00F594D3 /* LMTBookViewControlleriPhone.xib */; };
-		60BDEDC81ADC3C7E00F594D3 /* LMTLibraryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDC11ADC3C7E00F594D3 /* LMTLibraryTableViewController.m */; };
-		60BDEDC91ADC3C7E00F594D3 /* LMTSimplePDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDC31ADC3C7E00F594D3 /* LMTSimplePDFViewController.m */; };
-		60BDEDCA1ADC3C7E00F594D3 /* LMTSimplePDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDC41ADC3C7E00F594D3 /* LMTSimplePDFViewController.xib */; };
 		60BDEDD21ADC3C9F00F594D3 /* LMTBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDCC1ADC3C9F00F594D3 /* LMTBook.m */; };
 		60BDEDD31ADC3C9F00F594D3 /* LMTBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDCE1ADC3C9F00F594D3 /* LMTBookTableViewCell.m */; };
 		60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDCF1ADC3C9F00F594D3 /* LMTBookTableViewCell.xib */; };
-		60BDEDD51ADC3C9F00F594D3 /* LMTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDD11ADC3C9F00F594D3 /* LMTLibrary.m */; };
 		60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDD61ADC3CB400F594D3 /* book_icon.png */; };
 /* End PBXBuildFile section */
 
@@ -90,22 +83,11 @@
 		60BDEDAC1ADC3C4B00F594D3 /* HackerBooks2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackerBooks2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BDEDB11ADC3C4B00F594D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60BDEDB21ADC3C4B00F594D3 /* HackerBooks2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HackerBooks2Tests.m; sourceTree = "<group>"; };
-		60BDEDBC1ADC3C7E00F594D3 /* LMTBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTBookViewController.h; sourceTree = "<group>"; };
-		60BDEDBD1ADC3C7E00F594D3 /* LMTBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTBookViewController.m; sourceTree = "<group>"; };
-		60BDEDBE1ADC3C7E00F594D3 /* LMTBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookViewController.xib; sourceTree = "<group>"; };
-		60BDEDBF1ADC3C7E00F594D3 /* LMTBookViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookViewControlleriPhone.xib; sourceTree = "<group>"; };
-		60BDEDC01ADC3C7E00F594D3 /* LMTLibraryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTLibraryTableViewController.h; sourceTree = "<group>"; };
-		60BDEDC11ADC3C7E00F594D3 /* LMTLibraryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTLibraryTableViewController.m; sourceTree = "<group>"; };
-		60BDEDC21ADC3C7E00F594D3 /* LMTSimplePDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTSimplePDFViewController.h; sourceTree = "<group>"; };
-		60BDEDC31ADC3C7E00F594D3 /* LMTSimplePDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTSimplePDFViewController.m; sourceTree = "<group>"; };
-		60BDEDC41ADC3C7E00F594D3 /* LMTSimplePDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTSimplePDFViewController.xib; sourceTree = "<group>"; };
 		60BDEDCB1ADC3C9F00F594D3 /* LMTBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTBook.h; sourceTree = "<group>"; };
 		60BDEDCC1ADC3C9F00F594D3 /* LMTBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTBook.m; sourceTree = "<group>"; };
 		60BDEDCD1ADC3C9F00F594D3 /* LMTBookTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTBookTableViewCell.h; sourceTree = "<group>"; };
 		60BDEDCE1ADC3C9F00F594D3 /* LMTBookTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTBookTableViewCell.m; sourceTree = "<group>"; };
 		60BDEDCF1ADC3C9F00F594D3 /* LMTBookTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookTableViewCell.xib; sourceTree = "<group>"; };
-		60BDEDD01ADC3C9F00F594D3 /* LMTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTLibrary.h; sourceTree = "<group>"; };
-		60BDEDD11ADC3C9F00F594D3 /* LMTLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTLibrary.m; sourceTree = "<group>"; };
 		60BDEDD61ADC3CB400F594D3 /* book_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book_icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -254,8 +236,6 @@
 				605BAEF11ADE8AE000030015 /* LMTTag.m */,
 				60BDEDCB1ADC3C9F00F594D3 /* LMTBook.h */,
 				60BDEDCC1ADC3C9F00F594D3 /* LMTBook.m */,
-				60BDEDD01ADC3C9F00F594D3 /* LMTLibrary.h */,
-				60BDEDD11ADC3C9F00F594D3 /* LMTLibrary.m */,
 				605BAEC91ADE56E200030015 /* Model.xcdatamodeld */,
 			);
 			name = Models;
@@ -264,15 +244,6 @@
 		60BDEDDB1ADC3D4B00F594D3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				60BDEDBC1ADC3C7E00F594D3 /* LMTBookViewController.h */,
-				60BDEDBD1ADC3C7E00F594D3 /* LMTBookViewController.m */,
-				60BDEDBE1ADC3C7E00F594D3 /* LMTBookViewController.xib */,
-				60BDEDBF1ADC3C7E00F594D3 /* LMTBookViewControlleriPhone.xib */,
-				60BDEDC01ADC3C7E00F594D3 /* LMTLibraryTableViewController.h */,
-				60BDEDC11ADC3C7E00F594D3 /* LMTLibraryTableViewController.m */,
-				60BDEDC21ADC3C7E00F594D3 /* LMTSimplePDFViewController.h */,
-				60BDEDC31ADC3C7E00F594D3 /* LMTSimplePDFViewController.m */,
-				60BDEDC41ADC3C7E00F594D3 /* LMTSimplePDFViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -358,11 +329,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */,
-				60BDEDCA1ADC3C7E00F594D3 /* LMTSimplePDFViewController.xib in Resources */,
-				60BDEDC61ADC3C7E00F594D3 /* LMTBookViewController.xib in Resources */,
 				60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */,
 				60BDEDA71ADC3C4B00F594D3 /* LaunchScreen.xib in Resources */,
-				60BDEDC71ADC3C7E00F594D3 /* LMTBookViewControlleriPhone.xib in Resources */,
 				60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,16 +350,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				60BDEDA21ADC3C4B00F594D3 /* AppDelegate.m in Sources */,
-				60BDEDD51ADC3C9F00F594D3 /* LMTLibrary.m in Sources */,
 				605BAEF21ADE8AE000030015 /* LMTAnnotation.m in Sources */,
 				605BAEF51ADE8AE000030015 /* LMTPDF.m in Sources */,
 				60BDED9F1ADC3C4B00F594D3 /* main.m in Sources */,
-				60BDEDC91ADC3C7E00F594D3 /* LMTSimplePDFViewController.m in Sources */,
 				605BAEF31ADE8AE000030015 /* LMTAuthor.m in Sources */,
 				605BAEE11ADE8A8600030015 /* _LMTLocalization.m in Sources */,
 				605BAEF61ADE8AE000030015 /* LMTPhoto.m in Sources */,
 				605BAEDE1ADE8A8600030015 /* _LMTAnnotation.m in Sources */,
-				60BDEDC51ADC3C7E00F594D3 /* LMTBookViewController.m in Sources */,
 				605BAEE21ADE8A8600030015 /* _LMTPDF.m in Sources */,
 				605BAECB1ADE56E200030015 /* Model.xcdatamodeld in Sources */,
 				605BAECE1ADE817B00030015 /* AGTCoreDataStack.m in Sources */,
@@ -403,7 +368,6 @@
 				605BAEE41ADE8A8600030015 /* _LMTTag.m in Sources */,
 				605BAEDF1ADE8A8600030015 /* _LMTAuthor.m in Sources */,
 				605BAEF41ADE8AE000030015 /* LMTLocalization.m in Sources */,
-				60BDEDC81ADC3C7E00F594D3 /* LMTLibraryTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,6 +3,6 @@
 @interface LMTPDF : _LMTPDF {}
 // Custom logic goes here.
 
-+(instancetype) pdfWithURL:(NSURL *) pdfURL context:(NSManagedObjectContext *) context;
++(instancetype) pdfWithURL:(NSString *) pdfURL context:(NSManagedObjectContext *) context;
 
 @end

@@ -7,10 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#import "LMTBookViewController.h"
-#import "LMTLibraryTableViewController.h"
-#import "LMTLibrary.h"
+//#import "LMTBookViewController.h"
+//#import "LMTLibraryTableViewController.h"
+//#import "LMTLibrary.h"
 #import "AGTCoreDataStack.h"
+#import "LMTBook.h"
+#import "LMTTag.h"
+#import "LMTAuthor.h"
 
 
 @interface AppDelegate ()
@@ -33,7 +36,7 @@
     [self createDummyData];
     
     
-    
+/*
     NSError *error;
     NSData *data = nil;
     
@@ -130,7 +133,7 @@
         NSLog(@"Error al procesar JSON: %@", error.localizedDescription);
     }
     
-    
+ */
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -166,70 +169,117 @@
     
     
     // Creamos nuevos objetos
+//    
+//    NSURL *imageURL1 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg"];
+//    NSURL *pdfURL1 = [NSURL URLWithString:@"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf"];
+//    
+//    LMTBook *book1 = [LMTBook bookWithTitle:@"Pro Git"
+//                                    authors:@[@"cott Chacon", @"Ben Straub"]
+//                                       tags:@[@"version control", @"git"]
+//                                 isFavorite:0
+//                                   imageURL:@"http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg"
+//                                     pdfURL:@"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf"
+//                                    context:self.stack.context];
+//    
+//    
+//    NSURL *imageURL2 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/e5/27/e527064919530802af898a4798318ab9.jpg"];
+//    NSURL *pdfURL2 = [NSURL URLWithString:@"http://eloquentjavascript.net/Eloquent_JavaScript.pdf"];
+//    
+//    
+//    LMTBook *book2 = [LMTBook bookWithTitle:@"Eloquent JavaScript"
+//                                    authors:@[@"Marijn Haverbeke"]
+//                                       tags:@[@"javascript"]
+//                                 isFavorite:0
+//                                   imageURL:@"http://hackershelf.com/media/cache/e5/27/e527064919530802af898a4798318ab9.jpg"
+//                                     pdfURL:@"http://eloquentjavascript.net/Eloquent_JavaScript.pdf"
+//                                    context:self.stack.context];
+//    
+//    
+//    NSLog(@"Un libro:%@", book1);
+//    NSLog(@"Un libro:%@", book2);
     
-    NSURL *imageURL1 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg"];
-    NSURL *pdfURL1 = [NSURL URLWithString:@"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf"];
     
-    LMTBook *book1 = [LMTBook bookWithTitle:@"Pro Git"
-                                    authors:@[@"cott Chacon", @"Ben Straub"]
-                                       tags:@[@"version control", @"git"]
-                                 isFavorite:NO
-                                   imageURL:imageURL1
-                                     pdfURL:pdfURL1
-                                    context:self.stack.context];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
     
     
-    NSURL *imageURL2 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/e5/27/e527064919530802af898a4798318ab9.jpg"];
-    NSURL *pdfURL2 = [NSURL URLWithString:@"http://eloquentjavascript.net/Eloquent_JavaScript.pdf"];
+    [self serializeJSONData:data];
     
-    
-    LMTBook *book2 = [LMTBook bookWithTitle:@"Eloquent JavaScript"
-                                    authors:@[@"Marijn Haverbeke"]
-                                       tags:@[@"javascript"]
-                                 isFavorite:NO
-                                   imageURL:imageURL2
-                                     pdfURL:pdfURL2
-                                    context:self.stack.context];
-    
-    
-    NSLog(@"Un libro:%@", book1);
-    NSLog(@"Un libro:%@", book2);
-    
-/*
     // Buscar
     
-    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTNote entityName]];
     
-    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTNoteAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)],
-                            [NSSortDescriptor sortDescriptorWithKey:LMTNoteAttributes.modificationDate ascending:NO]];
-    req.fetchBatchSize = 20;
+    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
+    
+    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+//    req.fetchBatchSize = 20;
     //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
     
     NSArray *results = [self.stack executeFetchRequest:req
                                             errorBlock:^(NSError *error) {
                                                 NSLog(@"error al buscar! %@", error);
                                             }];
+    for (NSString *author in results) {
+        NSLog(@"Author: %@", [author valueForKey:@"name"]);
+    }
+//    NSLog(@"Tags: %@", results);
+
     
-    NSLog(@"Notas: %@", results);
-    
-    
+/*
+ 
     // Borrar
     [self.stack.context deleteObject:vega];
-    
+*/
  
     // Guardar
     [self.stack saveWithErrorBlock:^(NSError *error) {
         NSLog(@"Error al guardar! %@", error);
     }];
-*/    
+    
+
+
+
+
+
+}
+
+-(void) serializeJSONData: (NSData *) data{
+    
+    NSError *error;
+    
+    id JSONObjects = [NSJSONSerialization JSONObjectWithData:data
+                                                     options:kNilOptions
+                                                       error:&error];
+    if (JSONObjects == nil) {
+        // There was an error
+        NSLog(@"Error while parsing json data.\n%@", error);
+        //    self = nil;
+    }else if ([JSONObjects isKindOfClass:[NSArray class]]){
+        [self processJSONArray: JSONObjects];
+        //    [self setupNotifications];
+        
+        
+    }else{
+        // Should have been an NSArray
+        //    self = nil;
+        
+    }
+}
+
+-(void) processJSONArray:(NSArray *) array{
+    
+    for (NSDictionary *dict in array) {
+        
+        [LMTBook bookWithDictionary:dict
+                            context:self.stack.context];
+    }
 }
 
 
 
 
+/*
 #pragma mark - Utils
 -(void) configureForPadWithModel:(LMTLibrary *) library {
-    
+ 
     // Creating the controllers
     LMTLibraryTableViewController *libraryVC = [[LMTLibraryTableViewController alloc] initWithModel:library
                                                                                               style:UITableViewStylePlain];
@@ -274,5 +324,5 @@
     // Making rootVC
     self.window.rootViewController = libraryNav;
 }
-
+*/
 @end

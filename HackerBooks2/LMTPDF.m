@@ -10,14 +10,11 @@
 
 // Custom logic goes here.
 
-+(instancetype) pdfWithURL:(NSURL *) pdfURL context:(NSManagedObjectContext *) context{
++(instancetype) pdfWithURL:(NSString *) pdfURL context:(NSManagedObjectContext *) context{
 
     LMTPDF *apdf = [self insertInManagedObjectContext:context];
     
-    NSError *err = nil;
-    apdf.pdfURL = [NSString stringWithContentsOfURL:pdfURL
-                                          encoding:NSUTF8StringEncoding
-                                             error:&err ];
+    apdf.pdfURL = pdfURL;
 
     return apdf;
 }
