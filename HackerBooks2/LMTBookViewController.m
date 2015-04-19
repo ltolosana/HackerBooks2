@@ -12,6 +12,7 @@
 #import "LMTAuthor.h"
 #import "LMTPhoto.h"
 #import "LMTTag.h"
+#import "LMTPDF.h"
 
 
 @interface LMTBookViewController ()
@@ -33,6 +34,7 @@
     if (self= [super initWithNibName:nibName
                               bundle:nil]) {
         _model = model;
+        
     }
     
     return self;
@@ -46,8 +48,13 @@
     //Register Notification
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self
-           selector:@selector(notifyThatBookDidChangeFavorite:)
+           selector:@selector(syncFavoriteWithModel)
                name:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(syncImageWithModel)
+               name:IMAGE_DID_CHANGE_NOTIFICATION
              object:nil];
 
     // Asegurarse de que no se ocupa toda la pantalla cuando estas en un combinador
@@ -76,18 +83,30 @@
 }
 
 #pragma mark - Actions
-//-(IBAction)displayPDF:(id)sender{
-//    
-//    NSLog(@"Nos muestra el pdf:%@", self.model.pdfURL);
-//    
-//    // Create a pdfVC
-//    LMTSimplePDFViewController *pdfVC = [[LMTSimplePDFViewController alloc] initWithModel:self.model];
-//    
-//    // Push
-//    [self.navigationController pushViewController:pdfVC
-//                                         animated:YES];
-//    
-//}
+-(IBAction)displayPDF:(id)sender{
+    
+    NSLog(@"Nos muestra el pdf:%@", self.model.pdf.pdfURL);
+    
+    // Create a pdfVC
+    LMTSimplePDFViewController *pdfVC = [[LMTSimplePDFViewController alloc] initWithModel:self.model];
+    
+    // Push
+    [self.navigationController pushViewController:pdfVC
+                                         animated:YES];
+    
+}
+
+-(IBAction)changeToFavorite:(id)sender{
+//    self.model.isFavorite = !self.model.isFavorite;
+    NSLog(@"%@", self.model.isFavorite);
+    if ([self.model.isFavorite isEqual:@1]) {
+        self.model.isFavorite = @0;
+    }else if ([self.model.isFavorite isEqual:@0]){
+        self.model.isFavorite = @1;
+    }
+//    self.model.isFavorite = [NSNumber numberWithInt:![self.model.isFavorite intValue]];
+    NSLog(@"%@", self.model.isFavorite);
+}
 
 //-(IBAction)changeToFavorite:(id)sender{
 //    
@@ -154,8 +173,8 @@
 }
 
 
-#pragma mark - LMTLibraryTableViewControllerDelegate
--(void) libraryTableViewController:(LMTLibraryTableViewController *)uVC didSelectbook:(LMTBook *)book{
+#pragma mark - LMTBooksTableViewControllerDelegate
+-(void) booksTableViewController:(LMTBooksTableViewController *)uVC didSelectbook:(LMTBook *)book{
     
     // Update the model 
     self.model = book;
@@ -168,7 +187,22 @@
 #pragma mark - Notifications
 //FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
 -(void)notifyThatBookDidChangeFavorite:(NSNotification *) notification{
-    
+//    
+//        if (self.model.isFavorite == [NSNumber numberWithBool:YES]) {
+//    
+//            //Meto el titulo del libro como favorito
+//            [self.model addTagsObject:[LMTTag tagWithName:@"Favorites"
+//                                                     book:self.model
+//                                                  context:self.model.managedObjectContext]];
+//
+//    
+//        }else{
+//    
+//            // Borro el titulo de favoritos
+//            [self.model removeTagsObject:[LMTTag tagWithName:@"Favorites"
+//                                                        book:self.model
+//                                                     context:]];
+        
 //    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 //    NSArray *favs = [def objectForKey:FAVORITES];
 //    if (!favs) {
@@ -201,6 +235,8 @@
 -(void) syncViewWithModel{
     self.titleLabel.text = self.model.title;
     
+    self.title = self.model.title;
+    
     NSArray *arrAuthors = [[[self.model.authors allObjects] valueForKey:LMTAuthorAttributes.name] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
     self.authorsLabel.text = [@"By: " stringByAppendingString:[arrAuthors componentsJoinedByString:@", "]];
@@ -212,13 +248,30 @@
     [arrTagsCopy removeObject:FAVORITES];
 
     self.tagsLabel.text = [@"About: " stringByAppendingString:[arrTagsCopy componentsJoinedByString:@", "]];
-    [self.isFavoriteSwitch setOn:self.model.isFavorite];
-////    self.photoView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.model.imageURL]];
-    self.photoView.image = self.model.photo.image;
+    [self.isFavoriteSwitch setOn:[self.model.isFavorite boolValue]];
+
     
-    self.title = self.model.title;
+    
+    ////    self.photoView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.model.imageURL]];
+    
+    if (self.model.photo.photoData == nil){
+        self.photoView.image = [UIImage imageNamed:@"book_icon"];
+        NSLog(@"Portada vacia");
+    }
+    [self performSelector:@selector(syncImageWithModel)
+               withObject:nil
+               afterDelay:0.01];
+
 
 }
 
+-(void) syncImageWithModel{
+    self.photoView.image = self.model.photo.image;
+    
+}
+
+-(void) syncFavoriteWithModel{
+    [self.isFavoriteSwitch setOn:[self.model.isFavorite boolValue]];
+}
 
 @end

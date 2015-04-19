@@ -9,6 +9,7 @@
 #import "LMTSimplePDFViewController.h"
 #import "LMTBook.h"
 #import "LMTLibraryTableViewController.h"
+#import "LMTPDF.h"
 
 @interface LMTSimplePDFViewController ()
 
@@ -91,53 +92,85 @@
 
 #pragma mark - syncModelAndView
 -(void) syncModelAndView{
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSURL *localpdfURL = [[fm URLsForDirectory:NSDocumentDirectory
-                                     inDomains:NSUserDomainMask] lastObject];
-    localpdfURL = [localpdfURL URLByAppendingPathComponent:[self.model.title stringByAppendingPathExtension:@"pdf"]];
-    
-    NSError *error;
-    NSData *data = nil;
-    
-    // Try to load pdf locally
-    data = [NSData dataWithContentsOfURL:localpdfURL
-                                 options:NSDataReadingMappedIfSafe
-                                   error:&error];
-    if (data == nil) {
-        // There is no local pdf, so load from internet
+//    NSFileManager *fm = [NSFileManager defaultManager];
+//    NSURL *localpdfURL = [[fm URLsForDirectory:NSDocumentDirectory
+//                                     inDomains:NSUserDomainMask] lastObject];
+//    localpdfURL = [localpdfURL URLByAppendingPathComponent:[self.model.title stringByAppendingPathExtension:@"pdf"]];
+//    
+//    NSError *error;
+//    NSData *data = nil;
+//    
+//    // Try to load pdf locally
+//    data = [NSData dataWithContentsOfURL:localpdfURL
+//                                 options:NSDataReadingMappedIfSafe
+//                                   error:&error];
+//    if (data == nil) {
+    if (self.model.pdf.pdfData != nil) {
+        // El fichero existe, asi que lo cargamos
+        [self.reader loadData:self.model.pdf.pdfData
+                          MIMEType:@"application/pdf"
+                  textEncodingName:@"UTF-8"
+                           baseURL:nil];
         
-        data = [NSData dataWithContentsOfURL:self.model.pdfURL
-                                     options:NSDataReadingMappedIfSafe
-                                       error:&error];
-        if (data != nil) {
-            // save the pdf into local document directory
-            BOOL rc = [data writeToURL:localpdfURL
-                               options:NSDataWritingAtomic
-                                 error:&error];
-            if (rc == NO) {
-                NSLog(@"Error al guardar el pdf en local: %@", error.localizedDescription);
-            }
-            
-        }else{
-            // Inform the user that there is no book available
-            NSLog(@"Error, no existe el libro '%@' solicitado", self.model.title);
-            [[[UIAlertView alloc] initWithTitle:@"Libro no encontrado"
-                                        message:@"Sorry, no existe el libro solicitado."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil, nil] show];
-            [self.navigationController popViewControllerAnimated:NO];
-            
-        }
+    }else{
+        // There is no local pdf, so load from internet
+            [self downloadPDF];
+
+        
+    
+        
+//        data = [NSData dataWithContentsOfURL:self.model.pdfURL
+//                                     options:NSDataReadingMappedIfSafe
+//                                       error:&error];
+//        if (data != nil) {
+//            // save the pdf into local document directory
+//            BOOL rc = [data writeToURL:localpdfURL
+//                               options:NSDataWritingAtomic
+//                                 error:&error];
+//            if (rc == NO) {
+//                NSLog(@"Error al guardar el pdf en local: %@", error.localizedDescription);
+//            }
+//            
+//        }else{
+//            // Inform the user that there is no book available
+//            NSLog(@"Error, no existe el libro '%@' solicitado", self.model.title);
+//            [[[UIAlertView alloc] initWithTitle:@"Libro no encontrado"
+//                                        message:@"Sorry, no existe el libro solicitado."
+//                                       delegate:nil
+//                              cancelButtonTitle:@"OK"
+//                              otherButtonTitles:nil, nil] show];
+//            [self.navigationController popViewControllerAnimated:NO];
+//            
+//        }
     }
     
     // Show the book, no matter if local or remote
-    [self.reader loadData:data
-                 MIMEType:@"application/pdf"
-         textEncodingName:@"UTF-8"
-                  baseURL:nil];
+//    [self.reader loadData:data
+//                 MIMEType:@"application/pdf"
+//         textEncodingName:@"UTF-8"
+//                  baseURL:nil];
     
     
+}
+
+#pragma mark - Utils
+-(void) downloadPDF{
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0),
+                   ^{
+                       self.model.pdf.pdfData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.model.pdf.pdfURL]];
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           // Lo hago en primer plano para asegurarme de
+                           // todas las ntificaciones van en la ocla
+                           // principal
+                           [self.reader loadData:self.model.pdf.pdfData
+                                        MIMEType:@"application/pdf"
+                                textEncodingName:@"UTF-8"
+                                         baseURL:nil];
+
+                       });
+                   });
+
 }
 
 /*

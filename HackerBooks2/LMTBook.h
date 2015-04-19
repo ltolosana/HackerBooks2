@@ -7,6 +7,8 @@
 //
 
 #define FAVORITES @"Favorites"
+#define FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME @"favoriteStatusDidChangeNotification"
+#define BOOK_KEY @"bookKey"
 
 @import Foundation;
 @import UIKit;

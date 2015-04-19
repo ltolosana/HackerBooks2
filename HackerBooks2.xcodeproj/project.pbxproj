@@ -36,6 +36,8 @@
 		60BDEDD31ADC3C9F00F594D3 /* LMTBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDCE1ADC3C9F00F594D3 /* LMTBookTableViewCell.m */; };
 		60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDCF1ADC3C9F00F594D3 /* LMTBookTableViewCell.xib */; };
 		60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDD61ADC3CB400F594D3 /* book_icon.png */; };
+		60C400681AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C400661AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m */; };
+		60C400691AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60C400671AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,9 @@
 		60BDEDCE1ADC3C9F00F594D3 /* LMTBookTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTBookTableViewCell.m; sourceTree = "<group>"; };
 		60BDEDCF1ADC3C9F00F594D3 /* LMTBookTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTBookTableViewCell.xib; sourceTree = "<group>"; };
 		60BDEDD61ADC3CB400F594D3 /* book_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book_icon.png; sourceTree = "<group>"; };
+		60C400651AE3BDB4008FC8A7 /* LMTSimplePDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTSimplePDFViewController.h; sourceTree = "<group>"; };
+		60C400661AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTSimplePDFViewController.m; sourceTree = "<group>"; };
+		60C400671AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTSimplePDFViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +264,9 @@
 		60BDEDDB1ADC3D4B00F594D3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				60C400651AE3BDB4008FC8A7 /* LMTSimplePDFViewController.h */,
+				60C400661AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m */,
+				60C400671AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib */,
 				600AE8051AE30C040017C97F /* LMTBookViewController.h */,
 				600AE8061AE30C040017C97F /* LMTBookViewController.m */,
 				600AE8071AE30C040017C97F /* LMTBookViewController.xib */,
@@ -351,6 +359,7 @@
 			files = (
 				60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */,
 				60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */,
+				60C400691AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib in Resources */,
 				600AE80B1AE30C040017C97F /* LMTBookViewControlleriPhone.xib in Resources */,
 				60BDEDA71ADC3C4B00F594D3 /* LaunchScreen.xib in Resources */,
 				600AE80A1AE30C040017C97F /* LMTBookViewController.xib in Resources */,
@@ -393,6 +402,7 @@
 				605BAEE01ADE8A8600030015 /* _LMTBook.m in Sources */,
 				605BAEE41ADE8A8600030015 /* _LMTTag.m in Sources */,
 				605BAEDF1ADE8A8600030015 /* _LMTAuthor.m in Sources */,
+				60C400681AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m in Sources */,
 				605BAEF41ADE8AE000030015 /* LMTLocalization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

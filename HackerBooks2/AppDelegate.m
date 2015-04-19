@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-//#import "LMTBookViewController.h"
+#import "LMTBookViewController.h"
 //#import "LMTLibraryTableViewController.h"
 //#import "LMTLibrary.h"
 #import "AGTCoreDataStack.h"
@@ -38,26 +38,53 @@
     
 
     ////////// Pruebas
+//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
+//                                                         ascending:YES
+//                                                          selector:@selector(compare:)]];
+//    
+//    req.fetchBatchSize = 20;
+//    
+//    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+//                                                                          managedObjectContext:self.stack.context
+//                                                                            sectionNameKeyPath:LMTTagAttributes.name
+//                                                                                    cacheName:nil];
+//    
+//    
+//    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
+//                                                                                                           style:UITableViewStylePlain];
+//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:booksVC];
+//    
+//    self.window.rootViewController = navVC;
+    
+ 
+    
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
-                                                         ascending:YES
-                                                          selector:@selector(compare:)]];
+                                                          ascending:YES
+                                                           selector:@selector(compare:)]];
     
     req.fetchBatchSize = 20;
     
     NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                                                          managedObjectContext:self.stack.context
-                                                                            sectionNameKeyPath:LMTTagAttributes.name
+                                                                         managedObjectContext:self.stack.context
+                                                                           sectionNameKeyPath:LMTTagAttributes.name
                                                                                     cacheName:nil];
     
     
-    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
-                                                                                                           style:UITableViewStylePlain];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:booksVC];
     
-    self.window.rootViewController = navVC;
+    // Detecting type of screen
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        
+        // iPad type
+        [self configureForPadWithFetchedResultsController:fc];
+        
+    }else{
+        // iPhone type
+        [self configureForPhoneWithFetchedResultsController:fc];
+    }
+
     
- 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -267,17 +294,7 @@
         
         // Creating the model
         [self processJSONArray: JSONObjects];
-        
-        // Detecting type of screen
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-            
-            // iPad type
-            //            [self configureForPadWithModel:library];
-            
-        }else{
-            // iPhone type
-            //            [self configureForPhoneWithModel:library];
-        }
+
         
     }else{
         // Should have been an NSArray
@@ -300,30 +317,37 @@
 
 
 
-/*
+
 #pragma mark - Utils
--(void) configureForPadWithModel:(LMTLibrary *) library {
+-(void) configureForPadWithFetchedResultsController:(NSFetchedResultsController *) fc {
  
     // Creating the controllers
-    LMTLibraryTableViewController *libraryVC = [[LMTLibraryTableViewController alloc] initWithModel:library
-                                                                                              style:UITableViewStylePlain];
+    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
+                                                                                                           style:UITableViewStylePlain];
     
-    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:[library bookForTag:[library.tags objectAtIndex:1] atIndex:0]];
+// Esto lo tengo que cambiar para que arranque con el utimo leido o si no por uno por defecto
     
+    LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
+                                                           ascending:YES];
+    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:1];
+    
+    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
+
     // Creating the Navigation Controllers
-    UINavigationController *libraryNav = [[UINavigationController alloc] initWithRootViewController:libraryVC];
+    UINavigationController *booksNav = [[UINavigationController alloc] initWithRootViewController:booksVC];
     
     UINavigationController *bookNav = [[UINavigationController alloc] initWithRootViewController:bookVC];
     
     
     // Creating de combinator
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
-    splitVC.viewControllers = @[libraryNav, bookNav];
+    splitVC.viewControllers = @[booksNav, bookNav];
     
     
     // Delegates
     splitVC.delegate = bookVC;
-    libraryVC.delegate = bookVC;
+    booksVC.delegate = bookVC;
     
     
     // Making rootVC
@@ -331,22 +355,22 @@
     
 }
 
--(void) configureForPhoneWithModel:(LMTLibrary *) library{
+-(void) configureForPhoneWithFetchedResultsController:(NSFetchedResultsController *) fc{
     
     // Creating the controller
-    LMTLibraryTableViewController *libraryVC = [[LMTLibraryTableViewController alloc] initWithModel:library
-                                                                                              style:UITableViewStylePlain];
+    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
+                                                                                                           style:UITableViewStylePlain];
     
     // Creating de combinator
-    UINavigationController *libraryNav = [[UINavigationController alloc] initWithRootViewController:libraryVC];
+    UINavigationController *booksNav = [[UINavigationController alloc] initWithRootViewController:booksVC];
     
     
     // Delegate
-    libraryVC.delegate = libraryVC;
+    booksVC.delegate = booksVC;
     
     
     // Making rootVC
-    self.window.rootViewController = libraryNav;
+    self.window.rootViewController = booksNav;
 }
-*/
+
 @end

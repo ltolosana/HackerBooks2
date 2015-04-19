@@ -6,16 +6,15 @@
 //  Copyright (c) 2015 Luis M Tolosana Simon. All rights reserved.
 //
 
-#define MODEL_KEY @"modelKey"
-#define FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME @"favoriteStatusDidChangeNotification"
+
 
 @import UIKit;
 
 @class LMTBook;
-#import "LMTLibraryTableViewController.h"
+#import "LMTBooksTableViewController.h"
 
 
-@interface LMTBookViewController : UIViewController<UISplitViewControllerDelegate, LMTLibraryTableViewControllerDelegate>
+@interface LMTBookViewController : UIViewController<UISplitViewControllerDelegate, LMTBooksTableViewControllerDelegate>
 
 @property (strong, nonatomic) LMTBook *model;
 

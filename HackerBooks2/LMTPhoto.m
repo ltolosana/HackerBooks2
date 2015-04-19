@@ -19,16 +19,20 @@
 }
 
 -(UIImage *) image{
-    
-    NSLog(@"Mostramos la foto: %@", self.photoURL);
-    
-    // convertir la NSData en UIImage
-    
-    [self withDataURL:[NSURL URLWithString:self.photoURL]
-       completionBlock:^(NSData *data) {
-           self.photoData = data;
-       }];
 
+    //    self.photoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.photoURL]];
+        if (self.photoData == nil) {
+            // No hemos descargado todavia
+            // Descargo la photo
+            [self withDataURL:[NSURL URLWithString:self.photoURL]
+              completionBlock:^(NSData *data) {
+                  self.photoData = data;
+                  [self notifyChangeInImage];
+              }];
+
+        }
+
+    // convertir la NSData en UIImage
     return [UIImage imageWithData:self.photoData];
 }
 
@@ -41,6 +45,8 @@
 
     return p;
 }
+
+
 
 #pragma mark - Utils
 -(void) withDataURL: (NSURL *) url completionBlock:(void (^)(NSData* data))completionBlock{
@@ -65,6 +71,24 @@
     
     
     
+}
+
+-(void)notifyChangeInImage{
+    
+    // avisamos delegado si lo tenemos
+//    [self.delegate asyncImageDidChange:self];
+    
+    // Enviamos una notificación
+    NSNotification *notification =
+    [NSNotification notificationWithName: IMAGE_DID_CHANGE_NOTIFICATION
+                                  object:self
+                                userInfo:@{IMAGE_KEY : self.image}];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    
+    // con esto y las notificaciones KVO, quien necesite saber lo que ando
+    // lo tendrá muy fácil
 }
 
 

@@ -59,7 +59,20 @@
 //    return _image;
 //}
 
+-(void) setIsFavorite:(NSNumber *)isFavorite{
+    
+    if ([isFavorite  isEqual: @1]) {
+        [self insertFavoriteTag];
+        
+    }else if ([isFavorite  isEqual: @0]){
+        [self removeFavoriteTag];
+    }
+    
+}
 
+-(NSNumber *) isFavorite{
+    return [self hasFavoriteTag];
+}
 
 #pragma mark - Class methods
 // Solo vamos a observar si cambia el estado favorito
@@ -109,16 +122,16 @@
 
 +(instancetype) bookWithDictionary:(NSDictionary *) dict context:(NSManagedObjectContext *) context{
   
-    // Check in NSUSERDEFAULTS is book is favorite
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    NSArray *favs = [def objectForKey:FAVORITES];
-    
-    BOOL isFav = [favs containsObject:[dict objectForKey:@"title"]];
+//    // Check in NSUSERDEFAULTS is book is favorite
+//    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+//    NSArray *favs = [def objectForKey:FAVORITES];
+//    
+//    BOOL isFav = [favs containsObject:[dict objectForKey:@"title"]];
 
      LMTBook *book = [self insertInManagedObjectContext:context];
     
     book.title = [dict objectForKey:@"title"];
-    book.isFavorite = [NSNumber numberWithBool:isFav];
+    book.isFavorite = [NSNumber numberWithInt:0];
     
     NSArray *authors = [[dict objectForKey:@"authors"] componentsSeparatedByString:@", "];
     for (NSString *author in authors) {
@@ -191,7 +204,43 @@
 }
 */
 
+
+
 #pragma mark - Utils
+-(NSNumber *) hasFavoriteTag{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", FAVORITES];
+    return [NSNumber numberWithUnsignedInteger:[[self.tags filteredSetUsingPredicate:predicate] count]];
+    
+}
+
+-(void) insertFavoriteTag{
+    
+    [self addTagsObject:[LMTTag tagWithName:FAVORITES
+                                       book:self
+                                    context:self.managedObjectContext]];
+    [self notifyChanges];
+}
+
+-(void) removeFavoriteTag{
+    
+    [self removeTagsObject:[LMTTag tagWithName:FAVORITES
+                                          book:self
+                                       context:self.managedObjectContext]];
+    [self notifyChanges];
+}
+
+-(void) notifyChanges{
+    
+    NSNotification *n = [NSNotification
+                         notificationWithName:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
+                         object:self
+                         userInfo:@{BOOK_KEY : self}];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:n];
+
+}
+
+
 /*
  -(NSArray *) extractTagsFromJSONArray:(NSArray *) JSONArray{
     NSMutableArray *tags = [NSMutableArray arrayWithCapacity:[JSONArray count]];

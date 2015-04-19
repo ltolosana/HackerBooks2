@@ -29,12 +29,12 @@
     [self.tableView registerNib:nib
          forCellReuseIdentifier:[LMTBookTableViewCell cellId]];
     
-//    //Register Notification
-//    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-//    [nc addObserver:self
-//           selector:@selector(notifyThatBookDidChangeFavorite:)
-//               name:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
-//             object:nil];
+    //Register Notification
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self
+           selector:@selector(notifyThatBookDidChangeFavorite:)
+               name:FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
+             object:nil];
     
     [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor lightGrayColor]];
     
@@ -47,6 +47,14 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void) dealloc{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self];
+    
+}
+
+
+     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
@@ -94,7 +102,7 @@
     return cell;
 }
 
-
+#pragma mark - Delegate
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     // Which book
@@ -103,13 +111,32 @@
                                                            ascending:YES];
     LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:indexPath.row];
 
-    // Create the controller
-    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
     
-    // Push
-    [self.navigationController pushViewController:bookVC
-                                         animated:YES];
+//    // Create the controller
+//    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
+//    
+//    // Push
+//    [self.navigationController pushViewController:bookVC
+//                                         animated:YES];
     
+    
+    // Say to delegate
+    if ([self.delegate respondsToSelector:@selector(booksTableViewController:didSelectbook:)]) {
+        
+        [self.delegate booksTableViewController:self
+                                    didSelectbook:book];
+    }
+    
+    // Notify everyone interested
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    
+    NSDictionary *dict = @{BOOK_KEY : book};
+    NSNotification *n = [NSNotification notificationWithName:BOOK_DID_CHANGE_NOTIFICATION_NAME
+                                                      object:self
+                                                    userInfo:dict];
+    
+    [nc postNotification:n];
+   
     
 }
 
@@ -129,5 +156,24 @@
 //    
 //}
 
+#pragma mark - LMTBooksTableViewControllerDelegate
+-(void) booksTableViewController:(LMTBooksTableViewController *)booksVC didSelectbook:(LMTBook *)book{
+    
+    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
+    
+    [self.navigationController pushViewController:bookVC
+                                         animated:YES];
+}
+
+
+#pragma mark - Notifications
+//FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
+-(void) notifyThatBookDidChangeFavorite:(NSNotification *) notification{
+    
+
+    [self performFetch];
+    [self.tableView reloadData];
+    
+}
 
 @end
