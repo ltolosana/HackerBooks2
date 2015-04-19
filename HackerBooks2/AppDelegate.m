@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Luis M Tolosana Simon. All rights reserved.
 //
 
+#define AUTO_SAVE NO
+#define AUTO_SAVE_DELAY 5
+
+
 #import "AppDelegate.h"
 #import "LMTBookViewController.h"
 //#import "LMTLibraryTableViewController.h"
@@ -87,6 +91,11 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // Arranco el autoSave
+    [self autoSave];
+
+    
     return YES;
 }
 
@@ -330,7 +339,7 @@
     LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
                                                            ascending:YES];
-    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:1];
+    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:0];
     
     LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
 
@@ -371,6 +380,23 @@
     
     // Making rootVC
     self.window.rootViewController = booksNav;
+}
+
+-(void) autoSave{
+    
+    if (AUTO_SAVE) {
+        
+        NSLog(@"Autoguardando");
+        [self.stack saveWithErrorBlock:^(NSError *error) {
+            NSLog(@"Error al autoguardar!");
+        }];
+        
+        // Pongo el mi "agenda" una nueva llamada a autoSave
+        [self performSelector:@selector(autoSave)
+                   withObject:nil
+                   afterDelay:AUTO_SAVE_DELAY];
+        
+    }
 }
 
 @end

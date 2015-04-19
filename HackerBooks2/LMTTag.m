@@ -18,7 +18,7 @@
     NSError *err;
     NSArray *results = [context executeFetchRequest:req
                                               error:&err];
-    LMTTag *tag;
+     LMTTag *tag;
     if ([results count] == 0) {
         tag = [self insertInManagedObjectContext:context];
         tag.name = name;
