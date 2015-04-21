@@ -38,31 +38,9 @@
     self.stack = [AGTCoreDataStack coreDataStackWithModelName:@"Model"];
 
     // Creamos datos chorras
-    [self createDummyData];
+    [self downloadData];
     
 
-    ////////// Pruebas
-//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
-//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
-//                                                         ascending:YES
-//                                                          selector:@selector(compare:)]];
-//    
-//    req.fetchBatchSize = 20;
-//    
-//    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-//                                                                          managedObjectContext:self.stack.context
-//                                                                            sectionNameKeyPath:LMTTagAttributes.name
-//                                                                                    cacheName:nil];
-//    
-//    
-//    LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
-//                                                                                                           style:UITableViewStylePlain];
-//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:booksVC];
-//    
-//    self.window.rootViewController = navVC;
-    
- 
-    
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
                                                           ascending:YES
@@ -74,7 +52,6 @@
                                                                          managedObjectContext:self.stack.context
                                                                            sectionNameKeyPath:LMTTagAttributes.name
                                                                                     cacheName:nil];
-    
     
     
     // Detecting type of screen
@@ -122,42 +99,7 @@
 }
 
 
--(void) createDummyData{
-    
-    // Elimino datos anteriores
-//    [self.stack zapAllData];
-    
-    
-    // Creamos nuevos objetos
-//    
-//    NSURL *imageURL1 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg"];
-//    NSURL *pdfURL1 = [NSURL URLWithString:@"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf"];
-//    
-//    LMTBook *book1 = [LMTBook bookWithTitle:@"Pro Git"
-//                                    authors:@[@"cott Chacon", @"Ben Straub"]
-//                                       tags:@[@"version control", @"git"]
-//                                 isFavorite:0
-//                                   imageURL:@"http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg"
-//                                     pdfURL:@"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf"
-//                                    context:self.stack.context];
-//    
-//    
-//    NSURL *imageURL2 = [NSURL URLWithString:@"http://hackershelf.com/media/cache/e5/27/e527064919530802af898a4798318ab9.jpg"];
-//    NSURL *pdfURL2 = [NSURL URLWithString:@"http://eloquentjavascript.net/Eloquent_JavaScript.pdf"];
-//    
-//    
-//    LMTBook *book2 = [LMTBook bookWithTitle:@"Eloquent JavaScript"
-//                                    authors:@[@"Marijn Haverbeke"]
-//                                       tags:@[@"javascript"]
-//                                 isFavorite:0
-//                                   imageURL:@"http://hackershelf.com/media/cache/e5/27/e527064919530802af898a4798318ab9.jpg"
-//                                     pdfURL:@"http://eloquentjavascript.net/Eloquent_JavaScript.pdf"
-//                                    context:self.stack.context];
-//    
-//    
-//    NSLog(@"Un libro:%@", book1);
-//    NSLog(@"Un libro:%@", book2);
-    
+-(void) downloadData{
     
 //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
     
@@ -180,31 +122,14 @@
         
         if (data != nil) {
             
-//            // Save JSONData in local documents
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
-//                                     inDomains:NSUserDomainMask] lastObject];
-//            
-//            // Append the name
-//            url = [url URLByAppendingPathComponent:JSON_NAME];
-//            
-//            // Save
-//            BOOL rc = [data writeToURL:url
-//                               options:NSDataWritingAtomic
-//                                 error:&error];
-//            
-//            if (rc == NO) {
-//                NSLog(@"Error al guardar el JSON en la carpeta de documentos: %@", error.localizedDescription);
-//            }else{
             
-            // Todo ha salido bien, cogemos el JSON y cargamos los datos 
+            // Todo ha salido bien, cogemos el JSON y cargamos los datos
             [self serializeJSONData:data];
-
-                // Save to NSUSERDEFAULTS, so no more First Time
-                [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
-                [def synchronize];
-                
-//            }
+            
+            // Save to NSUSERDEFAULTS, so no more First Time
+            [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+            [def synchronize];
+            
         }else{
             // Failed to load JSON from internet
             NSLog(@"No se puede cargar el JSON: %@", error.localizedDescription);
@@ -216,33 +141,14 @@
             
             
         }
-//    }else{
-//        // Not the first time, so load JSON from local documents
-//        NSFileManager *fm = [NSFileManager defaultManager];
-//        
-//        NSURL *url = [[fm URLsForDirectory: NSDocumentDirectory
-//                                 inDomains:NSUserDomainMask] lastObject];
-//        url = [url URLByAppendingPathComponent:JSON_NAME];
-//        
-//        data = [NSData dataWithContentsOfURL:url
-//                                     options:NSDataReadingMappedIfSafe
-//                                       error:&error];
-//        if (data == nil) {
-//            NSLog(@"Error al cargar el JSON de local, lo deberia cargar de la red");
-//        }
-//        
     }
     
-    
-    
     // Buscar
-    
-    
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
     
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
 //    req.fetchBatchSize = 20;
-    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+//    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
     
     NSArray *results = [self.stack executeFetchRequest:req
                                             errorBlock:^(NSError *error) {
@@ -251,25 +157,20 @@
     for (NSString *author in results) {
         NSLog(@"Author: %@", [author valueForKey:@"name"]);
     }
-//    NSLog(@"Tags: %@", results);
-
+    //    NSLog(@"Tags: %@", results);
     
-/*
- 
-    // Borrar
-    [self.stack.context deleteObject:vega];
-*/
- 
+    
+    /*
+     
+     // Borrar
+     [self.stack.context deleteObject:vega];
+     */
+    
     // Guardar
     [self.stack saveWithErrorBlock:^(NSError *error) {
         NSLog(@"Error al guardar! %@", error);
     }];
     
-
-
-
-
-
 }
 
 -(void) serializeJSONData: (NSData *) data{
@@ -279,20 +180,6 @@
     id JSONObjects = [NSJSONSerialization JSONObjectWithData:data
                                                      options:kNilOptions
                                                        error:&error];
-    //    if (JSONObjects == nil) {
-    //        // There was an error
-    //        NSLog(@"Error while parsing json data.\n%@", error);
-    //        //    self = nil;
-    //    }else if ([JSONObjects isKindOfClass:[NSArray class]]){
-    //        [self processJSONArray: JSONObjects];
-    //        //    [self setupNotifications];
-    //
-    //
-    //    }else{
-    //        // Should have been an NSArray
-    //        //    self = nil;
-    //
-    //    }
     
     
     if (JSONObjects == nil) {
@@ -335,11 +222,27 @@
                                                                                                            style:UITableViewStylePlain];
     
 // Esto lo tengo que cambiar para que arranque con el utimo leido o si no por uno por defecto
+    //Estoy intentando con uno por defecto, pero no me da resultados
+    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     
-    LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
-                                                           ascending:YES];
-    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:0];
+    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name ascending:YES selector:@selector(compare:)]];
+    //    req.fetchBatchSize = 20;
+    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+    
+    NSArray *tags = [self.stack executeFetchRequest:req
+                                            errorBlock:^(NSError *error) {
+                                                NSLog(@"error al buscar! %@", error);
+                                            }];
+   
+    LMTTag *tag = [tags objectAtIndex:1];
+    
+    NSMutableArray *marr = [tag.books mutableArrayValueForKey:@"title"];
+    LMTBook *book = [marr objectAtIndex:0];
+
+    //    LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
+//    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
+//                                                           ascending:YES];
+//    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:0];
     
     LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
 
