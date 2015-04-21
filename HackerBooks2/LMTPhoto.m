@@ -87,47 +87,8 @@
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     
-    // con esto y las notificaciones KVO, quien necesite saber lo que ando
-    // lo tendrá muy fácil
-}
+ }
 
 
-//    if (_image == nil) {
-//        // Set the name to the local image file based on the Title
-//        NSFileManager *fm = [NSFileManager defaultManager];
-//        NSURL *localImageURL = [[fm URLsForDirectory:NSCachesDirectory
-//                                           inDomains:NSUserDomainMask] lastObject];
-//        localImageURL = [localImageURL URLByAppendingPathComponent:[self.title stringByAppendingPathExtension:@"jpg"]];
-//
-//        NSError *error;
-//        NSData *data = nil;
-//
-//        // Try to load image locally
-//        data = [NSData dataWithContentsOfURL:localImageURL
-//                                     options:NSDataReadingMappedIfSafe
-//                                       error:&error];
-//        if (data == nil) {
-//            // There is no local image, so load from internet
-//
-//            data = [NSData dataWithContentsOfURL:self.imageURL
-//                                         options:NSDataReadingMappedIfSafe
-//                                           error:&error];
-//            if (data != nil) {
-//                // save the image into local cache directory
-//                BOOL rc = [data writeToURL:localImageURL
-//                                   options:NSDataWritingAtomic
-//                                     error:&error];
-//                if (rc == NO) {
-//                    NSLog(@"Error al guardar la imagen en local: %@", error.localizedDescription);
-//                }
-//
-//            }
-//
-//        }
-//        // No matter local or remote, return image
-//        _image = [UIImage imageWithData:data];
-//
-//    }
-//    return _image;
 
 @end

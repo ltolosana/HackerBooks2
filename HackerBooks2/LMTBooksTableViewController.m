@@ -58,7 +58,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
- //   return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
     LMTTag *tag = [self.fetchedResultsController.fetchedObjects objectAtIndex:section];
     
     return [[tag.books allObjects] count];
@@ -79,11 +78,8 @@
                                                            ascending:YES];
     LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:indexPath.row];
     
-//    LMTBook *book = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
     
     // Create the cell
-    //    static NSString *cellId = @"BookCell";
     LMTBookTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[LMTBookTableViewCell cellId]
                                                                  forIndexPath:indexPath];
     
@@ -111,13 +107,6 @@
                                                            ascending:YES];
     LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:indexPath.row];
 
-    
-//    // Create the controller
-//    LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
-//    
-//    // Push
-//    [self.navigationController pushViewController:bookVC
-//                                         animated:YES];
     
     
     // Say to delegate
