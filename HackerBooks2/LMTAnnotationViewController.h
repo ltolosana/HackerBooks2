@@ -11,7 +11,7 @@
 @class LMTAnnotation;
 @class LMTPhoto;
 
-@interface LMTAnnotationViewController : UIViewController <UITextViewDelegate>
+@interface LMTAnnotationViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *creationDateView;
 @property (weak, nonatomic) IBOutlet UILabel *modificationDateView;

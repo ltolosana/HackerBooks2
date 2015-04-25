@@ -32,8 +32,8 @@
 -(void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    //Delegate
-    self.annotationView.delegate = self;
+//    //Delegate
+//    self.annotationView.delegate = self;
     
     //Alta en notificaciones de teclado
     [self setupKeyboardNotifications];
@@ -45,7 +45,9 @@
     self.creationDateView.text = [fmt stringFromDate:self.model.creationDate];
     self.modificationDateView.text = [fmt stringFromDate:self.model.modificationDate];
     self.annotationView.text = self.model.text;
-    self.photoView.image = [UIImage imageWithData:self.model.image.photoData];
+    if (self.model.image.photoData) {
+        self.photoView.image = [UIImage imageWithData:self.model.image.photoData];
+    }
     
 }
 
@@ -89,12 +91,12 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - UITextViewDelegate
-
-
--(void) textViewDidBeginEditing:(UITextView *)textView{
-    
-}
+//#pragma mark - UITextViewDelegate
+//
+//
+//-(void) textViewDidBeginEditing:(UITextView *)textView{
+//    
+//}
 
 -(void) setupKeyboardNotifications{
     

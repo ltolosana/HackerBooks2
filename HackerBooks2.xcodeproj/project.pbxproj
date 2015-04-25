@@ -30,6 +30,7 @@
 		6071700D1AEC02FA0062AC9E /* LMTAnnotationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6071700B1AEC02FA0062AC9E /* LMTAnnotationViewController.m */; };
 		6071700E1AEC02FA0062AC9E /* LMTAnnotationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6071700C1AEC02FA0062AC9E /* LMTAnnotationViewController.xib */; };
 		607170171AEC1C530062AC9E /* LMTAnnotationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 607170161AEC1C530062AC9E /* LMTAnnotationsViewController.m */; };
+		6085BE4E1AEC5495003F285A /* No_Image_Available.png in Resources */ = {isa = PBXBuildFile; fileRef = 6085BE4D1AEC5495003F285A /* No_Image_Available.png */; };
 		60BDED9F1ADC3C4B00F594D3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDED9E1ADC3C4B00F594D3 /* main.m */; };
 		60BDEDA21ADC3C4B00F594D3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDA11ADC3C4B00F594D3 /* AppDelegate.m */; };
 		60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDA31ADC3C4B00F594D3 /* Images.xcassets */; };
@@ -96,6 +97,7 @@
 		6071700C1AEC02FA0062AC9E /* LMTAnnotationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTAnnotationViewController.xib; sourceTree = "<group>"; };
 		607170151AEC1C530062AC9E /* LMTAnnotationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTAnnotationsViewController.h; sourceTree = "<group>"; };
 		607170161AEC1C530062AC9E /* LMTAnnotationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTAnnotationsViewController.m; sourceTree = "<group>"; };
+		6085BE4D1AEC5495003F285A /* No_Image_Available.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = No_Image_Available.png; sourceTree = "<group>"; };
 		60BDED991ADC3C4B00F594D3 /* HackerBooks2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BDED9D1ADC3C4B00F594D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60BDED9E1ADC3C4B00F594D3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 		60BDEDD81ADC3CF400F594D3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6085BE4D1AEC5495003F285A /* No_Image_Available.png */,
 				60BDEDD61ADC3CB400F594D3 /* book_icon.png */,
 			);
 			name = Resources;
@@ -375,6 +378,7 @@
 				60C400691AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib in Resources */,
 				600AE80B1AE30C040017C97F /* LMTBookViewControlleriPhone.xib in Resources */,
 				60BDEDA71ADC3C4B00F594D3 /* LaunchScreen.xib in Resources */,
+				6085BE4E1AEC5495003F285A /* No_Image_Available.png in Resources */,
 				600AE80A1AE30C040017C97F /* LMTBookViewController.xib in Resources */,
 				6071700E1AEC02FA0062AC9E /* LMTAnnotationViewController.xib in Resources */,
 				60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */,
