@@ -11,17 +11,20 @@
 @class LMTAnnotation;
 @class LMTPhoto;
 
-@interface LMTAnnotationViewController : UIViewController
+@interface LMTAnnotationViewController : UIViewController <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *creationDateView;
 @property (weak, nonatomic) IBOutlet UILabel *modificationDateView;
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
 @property (weak, nonatomic) IBOutlet UITextView *annotationView;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 
 @property (nonatomic, strong) LMTAnnotation *model;
 
 -(id) initWithModel:(LMTAnnotation *) model;
 
 - (IBAction)takePhoto:(id)sender;
+-(IBAction)hideKeyboard:(id)sender;
+
 
 @end
