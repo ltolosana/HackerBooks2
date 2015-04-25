@@ -37,9 +37,34 @@
     // creamos una instancia del stack
     self.stack = [AGTCoreDataStack coreDataStackWithModelName:@"Model"];
 
-    // Creamos datos chorras
-    [self downloadData];
+//    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+//    NSString *str = [def objectForKey:JSON_LOCAL_URL];
+//    
+//    if (str == nil) {
+        // It's the first time
+
+    // Descargamos y procesamos el JSON
+//        [self downloadAndProcessJSONWithcompletionBlock:^{
+
+//            }];
+//    [self downloadAndProcessJSON];
+//    }
+
+    // Buscar
+    NSFetchRequest *req1 = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
     
+    req1.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+    //    req.fetchBatchSize = 20;
+    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+    
+    NSArray *results = [self.stack executeFetchRequest:req1
+                                            errorBlock:^(NSError *error) {
+                                                NSLog(@"error al buscar! %@", error);
+                                            }];
+    for (NSString *author in results) {
+        NSLog(@"Author: %@", [author valueForKey:@"name"]);
+    }
+
 
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
@@ -52,7 +77,12 @@
                                                                          managedObjectContext:self.stack.context
                                                                            sectionNameKeyPath:LMTTagAttributes.name
                                                                                     cacheName:nil];
-    
+    if (!fc.fetchedObjects) {
+        [self downloadAndProcessJSON];
+        [self.stack saveWithErrorBlock:^(NSError *error) {
+            NSLog(@"Error al guardar! %@", error);
+        }];
+    }
     
     // Detecting type of screen
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -64,6 +94,7 @@
         // iPhone type
         [self configureForPhoneWithFetchedResultsController:fc];
     }
+
 
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -98,13 +129,47 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
+#pragma mark - JSON
+/*
+//-(void) downloadAndProcessJSONWithcompletionBlock:(void (^)())completionBlock{
+-(void) downloadAndProcessJSON{
+    // Check if it's the first time we run the App
+    
+    // Nos vamos a segundo plano a hacer todo el trabajo sucio
+//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
+        
+        
+        
+        [self downloadJSON];
+    
+        
+            // Save to NSUSERDEFAULTS, so no more First Time
+            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+            [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+            [def synchronize];
+            
+        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // Todo ha salido bien, cogemos el JSON y cargamos los datos
+            
+//            [self processAndSaveInCoreData];
+            
+            
+            //            completionBlock();
+//        });
+        
+//    });
+    
+}
+*/
+/*
 -(void) downloadData{
     
-//    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
+    //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
     
-    NSError *error;
-    NSData *data = nil;
+//    NSError *error;
+//    NSData *data = nil;
     
     // Check if it's the first time we run the App
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
@@ -114,62 +179,97 @@
         
         // It's the first time
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"]];
-        NSURLResponse *response = [[NSURLResponse alloc] init];
-        data = [NSURLConnection sendSynchronousRequest:request
-                                     returningResponse:&response
-                                                 error:&error];
+        //        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"]];
+        //        NSURLResponse *response = [[NSURLResponse alloc] init];
+        //        data = [NSURLConnection sendSynchronousRequest:request
+        //                                     returningResponse:&response
+        //                                                 error:&error];
         
-        if (data != nil) {
+        [self downloadJSONWithData:^(NSData *data) {
             
             
-            // Todo ha salido bien, cogemos el JSON y cargamos los datos
-            [self serializeJSONData:data];
-            
-            // Save to NSUSERDEFAULTS, so no more First Time
-            [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
-            [def synchronize];
-            
-        }else{
-            // Failed to load JSON from internet
-            NSLog(@"No se puede cargar el JSON: %@", error.localizedDescription);
-            [[[UIAlertView alloc] initWithTitle:@"Error General"
-                                        message:@"No se puede cargar el JSON."
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil, nil] show];
-            
-            
+            if (data != nil) {
+                
+                // Todo ha salido bien, cogemos el JSON y cargamos los datos
+                [self serializeJSONData:data];
+                
+                // Save to NSUSERDEFAULTS, so no more First Time
+                [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+                [def synchronize];
+                
+            }else{
+                // Failed to load JSON from internet
+                NSLog(@"No se puede cargar el JSON");
+                [[[UIAlertView alloc] initWithTitle:@"Error General"
+                                            message:@"No se puede cargar el JSON."
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil, nil] show];
+                
+                
+            }
+                     }];
         }
+         
+         // Buscar
+         NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
+         
+         req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+         //    req.fetchBatchSize = 20;
+         //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+         
+         NSArray *results = [self.stack executeFetchRequest:req
+                                                 errorBlock:^(NSError *error) {
+                                                     NSLog(@"error al buscar! %@", error);
+                                                 }];
+         for (NSString *author in results) {
+             NSLog(@"Author: %@", [author valueForKey:@"name"]);
+         }
+         //    NSLog(@"Tags: %@", results);
+         
+         
+ 
+          
+          // Borrar
+          //[self.stack.context deleteObject:vega];
+ 
+         
+         // Guardar
+         [self.stack saveWithErrorBlock:^(NSError *error) {
+            NSLog(@"Error al guardar! %@", error);
+        }];
+         
+
     }
+
+*/
+
+//-(NSData *) downloadJSON{
+-(void) downloadAndProcessJSON{
+    NSURL *url = [NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"];
     
-    // Buscar
-    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
+//    NSData *data = [NSData dataWithContentsOfURL:url];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                    
+                                    if (data != nil) {
+                                        
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [self serializeJSONData:data];
+  //                                          [self processAndSaveInCoreData];
+                                        });
+                                    }else{
+                                        // Failed to load JSON from internet
+                                        NSLog(@"No se puede cargar el JSON --> %@", error);
+                                        [[[UIAlertView alloc] initWithTitle:@"Error General"
+                                                                    message:@"No se puede cargar el JSON."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil, nil] show];
+                                    }
+                                }] resume];
     
-    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-//    req.fetchBatchSize = 20;
-//    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-    
-    NSArray *results = [self.stack executeFetchRequest:req
-                                            errorBlock:^(NSError *error) {
-                                                NSLog(@"error al buscar! %@", error);
-                                            }];
-    for (NSString *author in results) {
-        NSLog(@"Author: %@", [author valueForKey:@"name"]);
-    }
-    //    NSLog(@"Tags: %@", results);
-    
-    
-    /*
-     
-     // Borrar
-     [self.stack.context deleteObject:vega];
-     */
-    
-    // Guardar
-    [self.stack saveWithErrorBlock:^(NSError *error) {
-        NSLog(@"Error al guardar! %@", error);
-    }];
+//    return data;
     
 }
 
@@ -210,6 +310,36 @@
     }
 }
 
+-(void) processAndSaveInCoreData{
+    
+    // Buscar
+    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
+    
+    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
+    //    req.fetchBatchSize = 20;
+    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+    
+    NSArray *results = [self.stack executeFetchRequest:req
+                                            errorBlock:^(NSError *error) {
+                                                NSLog(@"error al buscar! %@", error);
+                                            }];
+    for (NSString *author in results) {
+        NSLog(@"Author: %@", [author valueForKey:@"name"]);
+    }
+    
+    
+    /*
+     
+     // Borrar
+     [self.stack.context deleteObject:vega];
+     */
+    
+    // Guardar
+    [self.stack saveWithErrorBlock:^(NSError *error) {
+        NSLog(@"Error al guardar! %@", error);
+    }];
+    
+}
 
 
 
