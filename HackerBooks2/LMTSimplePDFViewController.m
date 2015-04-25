@@ -82,6 +82,7 @@
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAnnotationAttributes.modificationDate
                                                           ascending:NO]];
     req.fetchBatchSize = 20;
+    req.predicate = [NSPredicate predicateWithFormat:@"book = %@", book];
     
     NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
                                                                          managedObjectContext:self.model.managedObjectContext
