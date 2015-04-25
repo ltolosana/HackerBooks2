@@ -10,6 +10,8 @@
 #import "LMTBook.h"
 #import "LMTLibraryTableViewController.h"
 #import "LMTPDF.h"
+#import "LMTAnnotationsViewController.h"
+#import "LMTAnnotation.h"
 
 @interface LMTSimplePDFViewController ()
 
@@ -28,6 +30,8 @@
     
     return self;
 }
+
+
 
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -65,6 +69,39 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Actions
+
+- (IBAction)viewAnnotations:(id)sender {
+    
+    //Averiguamos el libro
+    LMTBook *book = self.model;
+    
+   //Creamos el controlador de anotaciones
+    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAnnotation entityName]];
+    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAnnotationAttributes.modificationDate
+                                                          ascending:NO]];
+    req.fetchBatchSize = 20;
+    
+    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+                                                                         managedObjectContext:self.model.managedObjectContext
+                                                                           sectionNameKeyPath:nil
+                                                                                    cacheName:nil];
+    
+
+   
+    LMTAnnotationsViewController *annotationsVC = [[LMTAnnotationsViewController alloc] initWithFetchedResultsController:fc
+                                                                                                                   style:UITableViewStylePlain book:book];
+    
+    
+     //Hacemos push
+    
+    [self.navigationController pushViewController:annotationsVC
+                                         animated:YES];
+    
+    
+}
+
 
 #pragma mark - UIWebViewDelegate
 -(void) webViewDidFinishLoad:(UIWebView *)webView{

@@ -14,7 +14,7 @@
 -(void) setImage:(UIImage *)image{
     
     // convertir la UIImage en un NSData
-    self.photoData = UIImageJPEGRepresentation(image, 0.9);
+    self.photoData = UIImageJPEGRepresentation(image, 1);
     
 }
 
@@ -46,7 +46,13 @@
     return p;
 }
 
-
+//+(instancetype) photoWithImage:(UIImage *) photo context:(NSManagedObjectContext *) context{
+//    
+//    LMTPhoto *p = [self insertInManagedObjectContext:context];
+//    p.photoData = UIImageJPEGRepresentation(photo, 1);
+//    
+//    return p;
+//}
 
 #pragma mark - Utils
 -(void) withDataURL: (NSURL *) url completionBlock:(void (^)(NSData* data))completionBlock{

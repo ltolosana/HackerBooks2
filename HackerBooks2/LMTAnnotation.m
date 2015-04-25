@@ -1,4 +1,5 @@
 #import "LMTAnnotation.h"
+#import "LMTPhoto.h"
 
 @interface LMTAnnotation ()
 
@@ -9,5 +10,18 @@
 @implementation LMTAnnotation
 
 // Custom logic goes here.
+
++(instancetype) annotationWithText:(NSString *) text book:(LMTBook *) book image:(UIImage *) image context:(NSManagedObjectContext *) context{
+    
+    LMTAnnotation *annotation = [self insertInManagedObjectContext:context];
+    
+    annotation.text = text;
+    annotation.creationDate = [NSDate date];
+    annotation.modificationDate = [NSDate date];
+    annotation.book = book;
+//    annotation.image = [LMTPhoto insertInManagedObjectContext:context];
+    
+    return annotation;
+}
 
 @end

@@ -11,6 +11,7 @@
 #import "LMTTag.h"
 #import "LMTPDF.h"
 #import "LMTPhoto.h"
+#import "LMTAnnotation.h"
 
 
 @implementation LMTBook

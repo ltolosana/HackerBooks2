@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>1C6AA970-DD2C-4DE6-AB48-7B4FF0965DCA</string>
 	<key>IDESourceControlProjectName</key>
-	<string>HackerBooks2</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>FADA1845CD17AE9244266C427C6A511BC528C19F</key>
 		<string>https://github.com/ltolosana/HackerBooks2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>HackerBooks2.xcodeproj</string>
+	<string>HackerBooks2.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>FADA1845CD17AE9244266C427C6A511BC528C19F</key>

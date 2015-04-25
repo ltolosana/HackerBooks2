@@ -11,5 +11,6 @@
 @property (nonatomic, strong) UIImage *image;
 
 +(instancetype) photoWithURL:(NSString *) photoURL context:(NSManagedObjectContext *) context;
+//+(instancetype) photoWithImage:(UIImage *) photo context:(NSManagedObjectContext *) context;
 
 @end

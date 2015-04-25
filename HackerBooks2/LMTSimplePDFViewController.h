@@ -20,4 +20,6 @@
 
 -(id) initWithModel:(LMTBook *) model;
 
+- (IBAction)viewAnnotations:(id)sender;
+
 @end
