@@ -12,8 +12,6 @@
 
 #import "AppDelegate.h"
 #import "LMTBookViewController.h"
-//#import "LMTLibraryTableViewController.h"
-//#import "LMTLibrary.h"
 #import "AGTCoreDataStack.h"
 #import "LMTBook.h"
 #import "LMTTag.h"
@@ -38,63 +36,20 @@
     // creamos una instancia del stack
     self.stack = [AGTCoreDataStack coreDataStackWithModelName:@"Model"];
 
-
-    // Buscar
-//    NSFetchRequest *req1 = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
-//    
-//    req1.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name
-//                                                           ascending:YES
-//                                                            selector:@selector(caseInsensitiveCompare:)]];
-//    //    req.fetchBatchSize = 20;
-//    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-//    
-//    NSArray *results = [self.stack executeFetchRequest:req1
-//                                            errorBlock:^(NSError *error) {
-//                                                NSLog(@"error al buscar! %@", error);
-//                                            }];
-//    for (NSString *author in results) {
-//        NSLog(@"Author: %@", [author valueForKey:@"name"]);
-//    }
-
-
-//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
-//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
-//                                                          ascending:YES
-//                                                           selector:@selector(compare:)]];
-//
-//    NSArray *tags = [self.stack executeFetchRequest:req
-//                                            errorBlock:^(NSError *error) {
-//                                                NSLog(@"error al buscar! %@", error);
-//                                            }];
-//  
-//    req.fetchBatchSize = 20;
-//    
-//    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-//                                                                         managedObjectContext:self.stack.context
-//                                                                           sectionNameKeyPath:LMTTagAttributes.name
-//                                                                                    cacheName:nil];
-    
+  
     // Check if First Time
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    NSString *str = [def objectForKey:JSON_LOCAL_URL];
+    NSString *str = [def objectForKey:JSON_DOWNLOADED];
     
     if (str == nil) {
         
         // It's the first time
 
     
-//    if (![tags count]) {
         LMTStartViewController *sVC = [LMTStartViewController new];
         self.window.rootViewController = sVC;
         
         [self downloadAndProcessJSON];
-//        fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-//                                                 managedObjectContext:self.stack.context
-//                                                   sectionNameKeyPath:LMTTagAttributes.name
-//                                                            cacheName:nil];
-//        [self.stack saveWithErrorBlock:^(NSError *error) {
-//            NSLog(@"Error al guardar! %@", error);
-//        }];
     }else{
     
         NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
@@ -102,10 +57,6 @@
                                                               ascending:YES
                                                                selector:@selector(compare:)]];
         
-//        NSArray *tags = [self.stack executeFetchRequest:req
-//                                             errorBlock:^(NSError *error) {
-//                                                 NSLog(@"error al buscar! %@", error);
-//                                             }];
         
         req.fetchBatchSize = 20;
         
@@ -168,119 +119,6 @@
 }
 
 #pragma mark - JSON
-/*
-//-(void) downloadAndProcessJSONWithcompletionBlock:(void (^)())completionBlock{
--(void) downloadAndProcessJSON{
-    // Check if it's the first time we run the App
-    
-    // Nos vamos a segundo plano a hacer todo el trabajo sucio
-//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
-        
-        
-        
-        [self downloadJSON];
-    
-        
-            // Save to NSUSERDEFAULTS, so no more First Time
-            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-            [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
-            [def synchronize];
-            
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            // Todo ha salido bien, cogemos el JSON y cargamos los datos
-            
-//            [self processAndSaveInCoreData];
-            
-            
-            //            completionBlock();
-//        });
-        
-//    });
-    
-}
-*/
-/*
--(void) downloadData{
-    
-    //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://t.co/K9ziV0z3SJ"]];
-    
-//    NSError *error;
-//    NSData *data = nil;
-    
-    // Check if it's the first time we run the App
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    NSString *str = [def objectForKey:JSON_LOCAL_URL];
-    
-    if (str == nil) {
-        
-        // It's the first time
-        
-        //        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json"]];
-        //        NSURLResponse *response = [[NSURLResponse alloc] init];
-        //        data = [NSURLConnection sendSynchronousRequest:request
-        //                                     returningResponse:&response
-        //                                                 error:&error];
-        
-        [self downloadJSONWithData:^(NSData *data) {
-            
-            
-            if (data != nil) {
-                
-                // Todo ha salido bien, cogemos el JSON y cargamos los datos
-                [self serializeJSONData:data];
-                
-                // Save to NSUSERDEFAULTS, so no more First Time
-                [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
-                [def synchronize];
-                
-            }else{
-                // Failed to load JSON from internet
-                NSLog(@"No se puede cargar el JSON");
-                [[[UIAlertView alloc] initWithTitle:@"Error General"
-                                            message:@"No se puede cargar el JSON."
-                                           delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil, nil] show];
-                
-                
-            }
-                     }];
-        }
-         
-         // Buscar
-         NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
-         
-         req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-         //    req.fetchBatchSize = 20;
-         //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-         
-         NSArray *results = [self.stack executeFetchRequest:req
-                                                 errorBlock:^(NSError *error) {
-                                                     NSLog(@"error al buscar! %@", error);
-                                                 }];
-         for (NSString *author in results) {
-             NSLog(@"Author: %@", [author valueForKey:@"name"]);
-         }
-         //    NSLog(@"Tags: %@", results);
-         
-         
- 
-          
-          // Borrar
-          //[self.stack.context deleteObject:vega];
- 
-         
-         // Guardar
-         [self.stack saveWithErrorBlock:^(NSError *error) {
-            NSLog(@"Error al guardar! %@", error);
-        }];
-         
-
-    }
-
-*/
 
 //-(NSData *) downloadJSON{
 -(void) downloadAndProcessJSON{
@@ -293,22 +131,17 @@
                                     if (data != nil) {
                                         // Save to NSUSERDEFAULTS, so no more First Time
                                         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-                                        [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+                                        [def setObject:JSON_NAME forKey:JSON_DOWNLOADED];
                                         [def synchronize];
 
                                         dispatch_async(dispatch_get_main_queue(), ^{
                                             [self serializeJSONData:data];
-  //                                          [self processAndSaveInCoreData];
                                             
                                             NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
                                             req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
                                                                                                   ascending:YES
                                                                                                    selector:@selector(compare:)]];
                                             
-//                                            NSArray *tags = [self.stack executeFetchRequest:req
-//                                                                                 errorBlock:^(NSError *error) {
-//                                                                                     NSLog(@"error al buscar! %@", error);
-//                                                                                 }];
                                             
                                             req.fetchBatchSize = 20;
                                             
@@ -346,7 +179,6 @@
                                     }
                                 }] resume];
     
-//    return data;
     
 }
 
@@ -391,38 +223,6 @@
     
 }
 
-/*
--(void) processAndSaveInCoreData{
-    
-    // Buscar
-    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
-    
-    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-    //    req.fetchBatchSize = 20;
-    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-    
-    NSArray *results = [self.stack executeFetchRequest:req
-                                            errorBlock:^(NSError *error) {
-                                                NSLog(@"error al buscar! %@", error);
-                                            }];
-    for (NSString *author in results) {
-        NSLog(@"Author: %@", [author valueForKey:@"name"]);
-    }
-    
-    
- 
-     
-     // Borrar
-     [self.stack.context deleteObject:vega];
- 
-    
-    // Guardar
-    [self.stack saveWithErrorBlock:^(NSError *error) {
-        NSLog(@"Error al guardar! %@", error);
-    }];
-    
-}
-*/
 
 
 
@@ -436,46 +236,6 @@
     NSError *error;
     [fc performFetch:&error];
    
-// Esto lo tengo que cambiar para que arranque con el utimo leido o si no por uno por defecto
-    //Estoy intentando con uno por defecto, pero no me da resultados
-//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
-    
-//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name ascending:YES selector:@selector(compare:)]];
-    //    req.fetchBatchSize = 20;
-    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-    
-//    NSArray *tags = [self.stack executeFetchRequest:req
-//                                            errorBlock:^(NSError *error) {
-//                                                NSLog(@"error al buscar! %@", error);
-//                                            }];
-   
-//    LMTTag *tag = [tags objectAtIndex:1];
-    
-//    NSMutableArray *marr = [tag.books mutableArrayValueForKey:@"title"];
-//    LMTBook *book = [marr objectAtIndex:0];
-//    NSString *title = @"Security Engineering";
-//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTBook entityName]];
-//    req.predicate = [NSPredicate predicateWithFormat:@"title = %@", title];
-//    
-//    NSArray *books = [self.stack executeFetchRequest:req
-//                                          errorBlock:^(NSError *error) {
-//                                              
-//                                          }];
-//    if ([books count] == 0) {
-//        books = @[[LMTBook bookWithDictionary:@{
-//                                                @"authors": @"Ross J. Anderson",
-//                                                @"image_url": @"http://hackershelf.com/media/cache/b5/c6/b5c6bb1d0107a58bb697f712b7289b17.jpg",
-//                                                @"pdf_url": @"http://www.cl.cam.ac.uk/~rja14/musicfiles/manuscripts/SEv1.pdf",
-//                                                @"tags": @"distributed systems, cryptography, access controls, security",
-//                                                @"title": @"Security Engineering"
-//                                                }
-//                                      context:self.stack.context]];
-//    }
-//    LMTBook *book = [[[booksVC fetchedResultsController] fetchedObjects] ];
- //   LMTBook *book = [books lastObject];
-
-
-
     LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
                                                            ascending:YES];

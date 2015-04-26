@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-#define JSON_LOCAL_URL @"jsonLocalURL"
+#define JSON_DOWNLOADED @"jsonLocalURL"
 #define JSON_NAME @"books_readable.json"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

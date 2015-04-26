@@ -97,14 +97,12 @@
 }
 
 -(IBAction)changeToFavorite:(id)sender{
-//    self.model.isFavorite = !self.model.isFavorite;
     NSLog(@"%@", self.model.isFavorite);
     if ([self.model.isFavorite isEqual:@YES]) {
         self.model.isFavorite = @NO;
     }else if ([self.model.isFavorite isEqual:@NO]){
         self.model.isFavorite = @YES;
     }
-//    self.model.isFavorite = [NSNumber numberWithInt:![self.model.isFavorite intValue]];
     NSLog(@"%@", self.model.isFavorite);
 }
 
@@ -158,13 +156,6 @@
     [self.isFavoriteSwitch setOn:[self.model.isFavorite boolValue]];
     
     [self syncImageWithModel];
-//    if (self.model.photo.photoData == nil){
-//        self.photoView.image = [UIImage imageNamed:@"book_icon"];
-//        NSLog(@"Portada vacia");
-//    }
-//    [self performSelector:@selector(syncImageWithModel)
-//               withObject:nil
-//               afterDelay:0.01];
 
 
 }

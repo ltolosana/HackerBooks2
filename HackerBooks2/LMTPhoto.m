@@ -21,7 +21,6 @@
 -(UIImage *) image{
 
     //    self.photoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.photoURL]];
-//REvisar ESTO
     if ((self.photoData == nil) && (self.photoURL != nil)) {
 //    if (self.photoData == nil) {
             // No hemos descargado todavia
