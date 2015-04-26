@@ -61,6 +61,14 @@
     self.model.text = self.annotationView.text;
     self.model.image.image = self.photoView.image;
     
+    NSError *error;
+    if (self.model.managedObjectContext.hasChanges) {
+        
+        if (![self.model.managedObjectContext save:&error]) {
+            NSLog(@"Error al guardar: %@", error);
+        }
+    }
+    
 }
 
 - (void)viewDidLoad {

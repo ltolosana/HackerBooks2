@@ -180,6 +180,15 @@
 //FAVORITE_STATUS_DID_CHANGE_NOTIFICATION_NAME
 -(void) syncFavoriteWithModel{
     [self.isFavoriteSwitch setOn:[self.model.isFavorite boolValue]];
+    
+    NSError *error;
+    if (self.model.managedObjectContext.hasChanges) {
+        
+        if (![self.model.managedObjectContext save:&error]) {
+            NSLog(@"Error al guardar: %@", error);
+        }
+    }
+
 }
 
 @end
