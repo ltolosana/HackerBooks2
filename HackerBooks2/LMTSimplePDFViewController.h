@@ -11,7 +11,7 @@
 
 @class LMTBook;
 
-@interface LMTSimplePDFViewController : UIViewController<UIWebViewDelegate>
+@interface LMTSimplePDFViewController : UIViewController
 
 @property (strong, nonatomic) LMTBook *model;
 

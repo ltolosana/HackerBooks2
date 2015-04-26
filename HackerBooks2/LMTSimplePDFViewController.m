@@ -33,7 +33,6 @@
 
 
 
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
@@ -43,16 +42,11 @@
            selector:@selector(notifyThatBookDidChange:)
                name:BOOK_DID_CHANGE_NOTIFICATION_NAME
              object:nil];
-   
-    // Delegates
-    self.reader.delegate = self;
-    
-    [self.activityView setHidden:NO];
-    [self.activityView startAnimating];
 
     
     // Sync model & View
-    
+    self.activityView.hidden = YES;
+
     [self syncModelAndView];
 
 }
@@ -104,15 +98,6 @@
 }
 
 
-#pragma mark - UIWebViewDelegate
--(void) webViewDidFinishLoad:(UIWebView *)webView{
-    
-    [self.activityView stopAnimating];
-    [self.activityView setHidden:YES];
-    
-}
-
-
 #pragma mark - Notifications
 // BOOK_DID_CHANGE_NOTIFICATION_NAME
 -(void)notifyThatBookDidChange:(NSNotification *) notification{
@@ -147,6 +132,10 @@
 
 #pragma mark - Utils
 -(void) downloadPDF{
+
+    self.activityView.hidden=NO;
+    [self.activityView startAnimating];
+
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0),
                    ^{
                        self.model.pdf.pdfData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.model.pdf.pdfURL]];
@@ -160,6 +149,10 @@
                                         MIMEType:@"application/pdf"
                                 textEncodingName:@"UTF-8"
                                          baseURL:nil];
+                           
+                           [self.activityView stopAnimating];
+                           self.activityView.hidden=YES;
+
 
                        });
                    });
