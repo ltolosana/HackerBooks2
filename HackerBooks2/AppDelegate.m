@@ -20,6 +20,7 @@
 #import "LMTAuthor.h"
 #import "LMTBooksTableViewController.h"
 
+#import "LMTStartViewController.h"
 
 @interface AppDelegate ()
 
@@ -56,33 +57,63 @@
 //    }
 
 
-    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
-    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
-                                                          ascending:YES
-                                                           selector:@selector(compare:)]];
+//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
+//                                                          ascending:YES
+//                                                           selector:@selector(compare:)]];
+//
+//    NSArray *tags = [self.stack executeFetchRequest:req
+//                                            errorBlock:^(NSError *error) {
+//                                                NSLog(@"error al buscar! %@", error);
+//                                            }];
+//  
+//    req.fetchBatchSize = 20;
+//    
+//    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+//                                                                         managedObjectContext:self.stack.context
+//                                                                           sectionNameKeyPath:LMTTagAttributes.name
+//                                                                                    cacheName:nil];
+    
+    // Check if First Time
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *str = [def objectForKey:JSON_LOCAL_URL];
+    
+    if (str == nil) {
+        
+        // It's the first time
 
-    NSArray *tags = [self.stack executeFetchRequest:req
-                                            errorBlock:^(NSError *error) {
-                                                NSLog(@"error al buscar! %@", error);
-                                            }];
-  
-    req.fetchBatchSize = 20;
     
-    NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                                                         managedObjectContext:self.stack.context
-                                                                           sectionNameKeyPath:LMTTagAttributes.name
-                                                                                    cacheName:nil];
-    if (![tags count]) {
+//    if (![tags count]) {
+        LMTStartViewController *sVC = [LMTStartViewController new];
+        self.window.rootViewController = sVC;
+        
         [self downloadAndProcessJSON];
-        fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
-                                                 managedObjectContext:self.stack.context
-                                                   sectionNameKeyPath:LMTTagAttributes.name
-                                                            cacheName:nil];
-        [self.stack saveWithErrorBlock:^(NSError *error) {
-            NSLog(@"Error al guardar! %@", error);
-        }];
-    }
+//        fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+//                                                 managedObjectContext:self.stack.context
+//                                                   sectionNameKeyPath:LMTTagAttributes.name
+//                                                            cacheName:nil];
+//        [self.stack saveWithErrorBlock:^(NSError *error) {
+//            NSLog(@"Error al guardar! %@", error);
+//        }];
+    }else{
     
+        NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+        req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
+                                                              ascending:YES
+                                                               selector:@selector(compare:)]];
+        
+//        NSArray *tags = [self.stack executeFetchRequest:req
+//                                             errorBlock:^(NSError *error) {
+//                                                 NSLog(@"error al buscar! %@", error);
+//                                             }];
+        
+        req.fetchBatchSize = 20;
+        
+        NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+                                                                             managedObjectContext:self.stack.context
+                                                                               sectionNameKeyPath:LMTTagAttributes.name
+                                                                                        cacheName:nil];
+
     // Detecting type of screen
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         
@@ -93,7 +124,7 @@
         // iPhone type
         [self configureForPhoneWithFetchedResultsController:fc];
     }
-
+    }
 
     
     self.window.backgroundColor = [UIColor whiteColor];
@@ -260,10 +291,49 @@
     [[session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                     
                                     if (data != nil) {
-                                        
+                                        // Save to NSUSERDEFAULTS, so no more First Time
+                                        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+                                        [def setObject:JSON_NAME forKey:JSON_LOCAL_URL];
+                                        [def synchronize];
+
                                         dispatch_async(dispatch_get_main_queue(), ^{
                                             [self serializeJSONData:data];
   //                                          [self processAndSaveInCoreData];
+                                            
+                                            NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+                                            req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
+                                                                                                  ascending:YES
+                                                                                                   selector:@selector(compare:)]];
+                                            
+//                                            NSArray *tags = [self.stack executeFetchRequest:req
+//                                                                                 errorBlock:^(NSError *error) {
+//                                                                                     NSLog(@"error al buscar! %@", error);
+//                                                                                 }];
+                                            
+                                            req.fetchBatchSize = 20;
+                                            
+                                            NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+                                                                                                                 managedObjectContext:self.stack.context
+                                                                                                                   sectionNameKeyPath:LMTTagAttributes.name
+                                                                                                                            cacheName:nil];
+
+                                            [self.stack saveWithErrorBlock:^(NSError *error) {
+                                                NSLog(@"Error al guardar! %@", error);
+                                            }];
+
+                                            
+                                            // Detecting type of screen
+                                            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+                                                
+                                                // iPad type
+                                                [self configureForPadWithFetchedResultsController:fc];
+                                                
+                                            }else{
+                                                // iPhone type
+                                                [self configureForPhoneWithFetchedResultsController:fc];
+                                            }
+
+                                            
                                         });
                                     }else{
                                         // Failed to load JSON from internet
@@ -309,14 +379,19 @@
 }
 
 -(void) processJSONArray:(NSArray *) array{
+    [LMTTag tagWithName:FAVORITES
+                   book:nil
+                context:self.stack.context];
     
     for (NSDictionary *dict in array) {
         
         [LMTBook bookWithDictionary:dict
                             context:self.stack.context];
     }
+    
 }
 
+/*
 -(void) processAndSaveInCoreData{
     
     // Buscar
@@ -335,11 +410,11 @@
     }
     
     
-    /*
+ 
      
      // Borrar
      [self.stack.context deleteObject:vega];
-     */
+ 
     
     // Guardar
     [self.stack saveWithErrorBlock:^(NSError *error) {
@@ -347,7 +422,7 @@
     }];
     
 }
-
+*/
 
 
 
@@ -358,30 +433,57 @@
     LMTBooksTableViewController *booksVC = [[LMTBooksTableViewController alloc] initWithFetchedResultsController:fc
                                                                                                            style:UITableViewStylePlain];
     
+    NSError *error;
+    [fc performFetch:&error];
+   
 // Esto lo tengo que cambiar para que arranque con el utimo leido o si no por uno por defecto
     //Estoy intentando con uno por defecto, pero no me da resultados
-    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
+//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     
-    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name ascending:YES selector:@selector(compare:)]];
+//    req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name ascending:YES selector:@selector(compare:)]];
     //    req.fetchBatchSize = 20;
     //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
     
-    NSArray *tags = [self.stack executeFetchRequest:req
-                                            errorBlock:^(NSError *error) {
-                                                NSLog(@"error al buscar! %@", error);
-                                            }];
+//    NSArray *tags = [self.stack executeFetchRequest:req
+//                                            errorBlock:^(NSError *error) {
+//                                                NSLog(@"error al buscar! %@", error);
+//                                            }];
    
-    LMTTag *tag = [tags objectAtIndex:1];
+//    LMTTag *tag = [tags objectAtIndex:1];
     
-    NSMutableArray *marr = [tag.books mutableArrayValueForKey:@"title"];
-    LMTBook *book = [marr objectAtIndex:0];
+//    NSMutableArray *marr = [tag.books mutableArrayValueForKey:@"title"];
+//    LMTBook *book = [marr objectAtIndex:0];
+//    NSString *title = @"Security Engineering";
+//    NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTBook entityName]];
+//    req.predicate = [NSPredicate predicateWithFormat:@"title = %@", title];
+//    
+//    NSArray *books = [self.stack executeFetchRequest:req
+//                                          errorBlock:^(NSError *error) {
+//                                              
+//                                          }];
+//    if ([books count] == 0) {
+//        books = @[[LMTBook bookWithDictionary:@{
+//                                                @"authors": @"Ross J. Anderson",
+//                                                @"image_url": @"http://hackershelf.com/media/cache/b5/c6/b5c6bb1d0107a58bb697f712b7289b17.jpg",
+//                                                @"pdf_url": @"http://www.cl.cam.ac.uk/~rja14/musicfiles/manuscripts/SEv1.pdf",
+//                                                @"tags": @"distributed systems, cryptography, access controls, security",
+//                                                @"title": @"Security Engineering"
+//                                                }
+//                                      context:self.stack.context]];
+//    }
+//    LMTBook *book = [[[booksVC fetchedResultsController] fetchedObjects] ];
+ //   LMTBook *book = [books lastObject];
 
-    //    LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
-//    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
-//                                                           ascending:YES];
-//    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] objectAtIndex:0];
+
+
+    LMTTag *tag = [fc.fetchedObjects objectAtIndex:1];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"title"
+                                                           ascending:YES];
+    LMTBook *book = [[tag.books sortedArrayUsingDescriptors:@[sort]] firstObject];
+    
     
     LMTBookViewController *bookVC = [[LMTBookViewController alloc] initWithModel:book];
+    
 
     // Creating the Navigation Controllers
     UINavigationController *booksNav = [[UINavigationController alloc] initWithRootViewController:booksVC];

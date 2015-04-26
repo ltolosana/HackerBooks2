@@ -33,6 +33,8 @@
 		6085BE4E1AEC5495003F285A /* No_Image_Available.png in Resources */ = {isa = PBXBuildFile; fileRef = 6085BE4D1AEC5495003F285A /* No_Image_Available.png */; };
 		6085BE521AEC5896003F285A /* LMTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6085BE501AEC5896003F285A /* LMTPhotoViewController.m */; };
 		6085BE531AEC5896003F285A /* LMTPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6085BE511AEC5896003F285A /* LMTPhotoViewController.xib */; };
+		6085BE571AED3975003F285A /* LMTStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6085BE551AED3975003F285A /* LMTStartViewController.m */; };
+		6085BE581AED3975003F285A /* LMTStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6085BE561AED3975003F285A /* LMTStartViewController.xib */; };
 		60BDED9F1ADC3C4B00F594D3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDED9E1ADC3C4B00F594D3 /* main.m */; };
 		60BDEDA21ADC3C4B00F594D3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60BDEDA11ADC3C4B00F594D3 /* AppDelegate.m */; };
 		60BDEDA41ADC3C4B00F594D3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60BDEDA31ADC3C4B00F594D3 /* Images.xcassets */; };
@@ -103,6 +105,9 @@
 		6085BE4F1AEC5896003F285A /* LMTPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTPhotoViewController.h; sourceTree = "<group>"; };
 		6085BE501AEC5896003F285A /* LMTPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTPhotoViewController.m; sourceTree = "<group>"; };
 		6085BE511AEC5896003F285A /* LMTPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTPhotoViewController.xib; sourceTree = "<group>"; };
+		6085BE541AED3975003F285A /* LMTStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMTStartViewController.h; sourceTree = "<group>"; };
+		6085BE551AED3975003F285A /* LMTStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMTStartViewController.m; sourceTree = "<group>"; };
+		6085BE561AED3975003F285A /* LMTStartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LMTStartViewController.xib; sourceTree = "<group>"; };
 		60BDED991ADC3C4B00F594D3 /* HackerBooks2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60BDED9D1ADC3C4B00F594D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60BDED9E1ADC3C4B00F594D3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -297,6 +302,9 @@
 				6085BE4F1AEC5896003F285A /* LMTPhotoViewController.h */,
 				6085BE501AEC5896003F285A /* LMTPhotoViewController.m */,
 				6085BE511AEC5896003F285A /* LMTPhotoViewController.xib */,
+				6085BE541AED3975003F285A /* LMTStartViewController.h */,
+				6085BE551AED3975003F285A /* LMTStartViewController.m */,
+				6085BE561AED3975003F285A /* LMTStartViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -381,6 +389,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6085BE581AED3975003F285A /* LMTStartViewController.xib in Resources */,
 				60BDEDD71ADC3CB400F594D3 /* book_icon.png in Resources */,
 				60BDEDD41ADC3C9F00F594D3 /* LMTBookTableViewCell.xib in Resources */,
 				60C400691AE3BDB4008FC8A7 /* LMTSimplePDFViewController.xib in Resources */,
@@ -432,6 +441,7 @@
 				605BAEE41ADE8A8600030015 /* _LMTTag.m in Sources */,
 				605BAEDF1ADE8A8600030015 /* _LMTAuthor.m in Sources */,
 				60C400681AE3BDB4008FC8A7 /* LMTSimplePDFViewController.m in Sources */,
+				6085BE571AED3975003F285A /* LMTStartViewController.m in Sources */,
 				605BAEF41ADE8AE000030015 /* LMTLocalization.m in Sources */,
 				607170171AEC1C530062AC9E /* LMTAnnotationsViewController.m in Sources */,
 			);

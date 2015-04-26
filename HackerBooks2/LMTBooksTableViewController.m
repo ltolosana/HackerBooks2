@@ -160,7 +160,7 @@
 -(void) notifyThatBookDidChangeFavorite:(NSNotification *) notification{
     
 
-    [self performFetch];
+//    [self performFetch];
     [self.tableView reloadData];
     
 }

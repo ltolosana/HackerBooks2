@@ -26,8 +26,10 @@
         tag = [results lastObject];
     }
     
-    
-    [tag addBooksObject:book];
+    if (book != nil) {
+        
+        [tag addBooksObject:book];
+    }
     
     return tag;
 }
