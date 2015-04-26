@@ -22,16 +22,16 @@
 
     //    self.photoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.photoURL]];
 //REvisar ESTO
-    if ((self.photoData == nil) | (self.photoURL != nil)) {
+    if ((self.photoData == nil) && (self.photoURL != nil)) {
 //    if (self.photoData == nil) {
             // No hemos descargado todavia
             // Descargo la photo
-            [self withDataURL:[NSURL URLWithString:self.photoURL]
-              completionBlock:^(NSData *data) {
-                  self.photoData = data;
-                  [self notifyChangeInImage];
-              }];
-
+        self.photoData = UIImageJPEGRepresentation([UIImage imageNamed:@"book_icon"],1);
+        NSLog(@"Portada vacia");
+        
+        [self performSelector:@selector(downloadImage)
+                   withObject:nil
+                   afterDelay:0.01];
         }
 
     // convertir la NSData en UIImage
@@ -48,16 +48,27 @@
     return p;
 }
 
-+(instancetype) photoWithImage:(UIImage *) photo context:(NSManagedObjectContext *) context{
++(instancetype) photoWithImage:(UIImage *) photo annotation:(LMTAnnotation *) annotation context:(NSManagedObjectContext *) context{
     
     LMTPhoto *p = [self insertInManagedObjectContext:context];
     
     p.photoData = UIImageJPEGRepresentation(photo, 1);
+    [p addAnnotationsObject:annotation];
     
     return p;
 }
 
+
 #pragma mark - Utils
+
+-(void) downloadImage{
+    [self withDataURL:[NSURL URLWithString:self.photoURL]
+      completionBlock:^(NSData *data) {
+          self.photoData = data;
+          [self notifyChangeInImage];
+      }];
+}
+
 -(void) withDataURL: (NSURL *) url completionBlock:(void (^)(NSData* data))completionBlock{
     
     // Nos vamos a segundo plano a descargar la imagen
@@ -88,10 +99,9 @@
 //    [self.delegate asyncImageDidChange:self];
     
     // Enviamos una notificación
-    NSNotification *notification =
-    [NSNotification notificationWithName: IMAGE_DID_CHANGE_NOTIFICATION
-                                  object:self
-                                userInfo:@{IMAGE_KEY : self.image}];
+    NSNotification *notification = [NSNotification notificationWithName: IMAGE_DID_CHANGE_NOTIFICATION
+                                                                 object:self
+                                                               userInfo:@{IMAGE_KEY : self.image}];
     
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     

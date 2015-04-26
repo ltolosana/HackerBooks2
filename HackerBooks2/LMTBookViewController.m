@@ -157,13 +157,14 @@
     self.tagsLabel.text = [@"About: " stringByAppendingString:[arrTagsCopy componentsJoinedByString:@", "]];
     [self.isFavoriteSwitch setOn:[self.model.isFavorite boolValue]];
     
-    if (self.model.photo.photoData == nil){
-        self.photoView.image = [UIImage imageNamed:@"book_icon"];
-        NSLog(@"Portada vacia");
-    }
-    [self performSelector:@selector(syncImageWithModel)
-               withObject:nil
-               afterDelay:0.01];
+    [self syncImageWithModel];
+//    if (self.model.photo.photoData == nil){
+//        self.photoView.image = [UIImage imageNamed:@"book_icon"];
+//        NSLog(@"Portada vacia");
+//    }
+//    [self performSelector:@selector(syncImageWithModel)
+//               withObject:nil
+//               afterDelay:0.01];
 
 
 }
