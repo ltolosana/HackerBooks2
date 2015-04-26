@@ -21,7 +21,9 @@
 -(UIImage *) image{
 
     //    self.photoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.photoURL]];
-        if (self.photoData == nil) {
+//REvisar ESTO
+    if ((self.photoData == nil) | (self.photoURL != nil)) {
+//    if (self.photoData == nil) {
             // No hemos descargado todavia
             // Descargo la photo
             [self withDataURL:[NSURL URLWithString:self.photoURL]
@@ -46,13 +48,14 @@
     return p;
 }
 
-//+(instancetype) photoWithImage:(UIImage *) photo context:(NSManagedObjectContext *) context{
-//    
-//    LMTPhoto *p = [self insertInManagedObjectContext:context];
-//    p.photoData = UIImageJPEGRepresentation(photo, 1);
-//    
-//    return p;
-//}
++(instancetype) photoWithImage:(UIImage *) photo context:(NSManagedObjectContext *) context{
+    
+    LMTPhoto *p = [self insertInManagedObjectContext:context];
+    
+    p.photoData = UIImageJPEGRepresentation(photo, 1);
+    
+    return p;
+}
 
 #pragma mark - Utils
 -(void) withDataURL: (NSURL *) url completionBlock:(void (^)(NSData* data))completionBlock{

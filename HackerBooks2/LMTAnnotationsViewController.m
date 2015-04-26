@@ -48,7 +48,7 @@
     
     LMTAnnotation *annotation = [LMTAnnotation annotationWithText:@""
                                                              book:self.book
-                                                            image:nil
+                                                            image:[UIImage imageNamed:@"No_Image_Available"]
                                                           context:self.book.managedObjectContext];
     
     LMTAnnotationViewController *aVC = [[LMTAnnotationViewController alloc] initWithModel:annotation];

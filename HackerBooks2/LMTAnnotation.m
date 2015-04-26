@@ -19,7 +19,7 @@
     annotation.creationDate = [NSDate date];
     annotation.modificationDate = [NSDate date];
     annotation.book = book;
-//    annotation.image = [LMTPhoto insertInManagedObjectContext:context];
+    annotation.image = [LMTPhoto photoWithImage:image context:context];
     
     return annotation;
 }

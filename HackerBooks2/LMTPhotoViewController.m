@@ -64,5 +64,41 @@
 
 #pragma mark - Actions
 - (IBAction)takePhoto:(id)sender {
+    
+    // Creamos el picker
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }else{
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    picker.delegate = self;
+    
+    //Lo mostramos de forma modal
+    
+    [self presentViewController:picker
+                       animated:YES
+                     completion:^{
+                         
+                     }];
 }
+
+#pragma mark - UIImagePickerControllerDelegate
+-(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+
+    UIImage *img = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    self.model.image = img;
+    
+    [self dismissViewControllerAnimated:YES
+                             completion:^{
+                                 
+                             }];
+    
+}
+
+
+
 @end

@@ -10,7 +10,7 @@
 
 @class LMTPhoto;
 
-@interface LMTPhotoViewController : UIViewController
+@interface LMTPhotoViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) LMTPhoto *model;
 

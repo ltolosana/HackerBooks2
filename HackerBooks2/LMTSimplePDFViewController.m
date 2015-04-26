@@ -153,8 +153,9 @@
                        
                        dispatch_async(dispatch_get_main_queue(), ^{
                            // Lo hago en primer plano para asegurarme de
-                           // todas las ntificaciones van en la ocla
+                           // todas las notificaciones van en la cola
                            // principal
+                           
                            [self.reader loadData:self.model.pdf.pdfData
                                         MIMEType:@"application/pdf"
                                 textEncodingName:@"UTF-8"

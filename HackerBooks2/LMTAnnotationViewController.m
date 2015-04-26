@@ -10,6 +10,7 @@
 
 #import "LMTAnnotation.h"
 #import "LMTPhoto.h"
+#import "LMTPhotoViewController.h"
 
 @interface LMTAnnotationViewController ()
 
@@ -45,9 +46,9 @@
     self.creationDateView.text = [fmt stringFromDate:self.model.creationDate];
     self.modificationDateView.text = [fmt stringFromDate:self.model.modificationDate];
     self.annotationView.text = self.model.text;
-    if (self.model.image.photoData) {
-        self.photoView.image = [UIImage imageWithData:self.model.image.photoData];
-    }
+//    if (self.model.image.photoData) {
+        self.photoView.image = self.model.image.image;
+//    }
     
 }
 
@@ -58,7 +59,7 @@
     [self tearDownKeyboardNotifications];
     
     self.model.text = self.annotationView.text;
-    self.model.image.photoData = UIImageJPEGRepresentation(self.photoView.image, 1);
+    self.model.image.image = self.photoView.image;
     
 }
 
@@ -84,6 +85,11 @@
 
 #pragma mark - Actions
 - (IBAction)takePhoto:(id)sender {
+    
+    LMTPhotoViewController *pVC = [[LMTPhotoViewController alloc] initWithModel:self.model.image];
+    [self.navigationController pushViewController:pVC
+                                         animated:YES];
+    
 }
 
 -(IBAction)hideKeyboard:(id)sender{
