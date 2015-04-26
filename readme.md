@@ -1,27 +1,16 @@
 **Hackerbooks2**
 
-Hola,
+Hola de nuevo,
 
-aqui te dejo lo poquito que he podido avanzar de la practica del curso de iOS Intermedio.
-No llego al minimo obligatorio, pero al menos me gustaria que me corrigierais esta parte para saber si esta vez he aplicacio bien los fundamentos de las comunicaciones y si la parte de Core Data va bien encaminada.
+os paso de nuevo el ejercicio con la parte obligtoria reducida.
 
-Tengo dos problemas.
-El primero supongo que sera propio de mi equipo. En el equipo en el que he estado trabajando (un iMac) me compila bien sin problemas y el programa se ejecuta. Sin embargo, a traves de GitHub me lo baje en el MAcbook y ahi me da un error de Core Data, creo que era algo sobre el atributo de isFavorite del libro.
-No lo recuerdo bien ahora mismo. Lo volvere a mirar y pasare el fosfosoda por si acaso.
+Me ha quedado un problema sin resolver.
+Puedo añadir y quitar favoritos, casi sin problemas. El problema viene al quitar el ultimo favorito. Core Data da un error y la App deja de funcionar. Supongo que es es porque desaparece el Tag de Favorites, con lo cual cambia el numero de tags y demas, pero no he sido capaz de solucionarlo.
 
-El segundo si que es del ejercicio.
-Puedo añadir y quitar favoritos, casi sin problemas. El problema viene al quitar el ultimo favorito. Core Data da un error y la App deja de funcionar. Supongo que es es porque desaparece el Tag de Favorites, con lo cual cambia el numero de tags y demas ,pero no he sido capaz de solucionarlo.
+Por otro lado tenia un problema de que no era capaz de cargar con el ipad la primera vez. Llegaba a la creacion del bookVC antes de haber terminado  de descargar los datos del JSON en segundo plano. Lo he "resuelto" poniendo un rootVC temporal, hasta que se cargan los datos del JSON y entonces ya muestro el splitVC. Supongo que no es lo mas ortodoxo pero no se me ocurria otra cosa.
 
-Por otro lado tambien me pasa que en la parte de ipad antes era muy facil asignar un libro por defecto de inicio, pero ahora, con core Data, he intentado hacerlo (aunque no he podido dedicarle mucho tiempo) pero no lo he conseguido.
-
-Y hasta ahi he llegado.
-Con lo facil que parece todo cuando lo estas explicando, Fernando, y como se complica (o como lo complicamos nosotros) despues...
-
-Me acabo de dar cuenta que se me ha olvidado descargar el JSON en segundo plano.
-Las fotos y los pdfs si que los tengo puestos.
-En fin, que desastre.
+Tambien me ha pasado una cosa curiosa. He tenido que poner el atributo isFavorite del libro en opcional, porque si lo dejaba obligatorio daba una excepcion Core Data al guardar. El caso es que me ha empezado a pasar a raiz de cambiar la descarga del JSON a segundo plano. No se si tiene algo que ver (no le encuentro ninguna logica) o es que por el camino he roto algo, que sera lo mas posible. No le he encontrado explicacion ni solucion.
 
 Un saludo,
 
              Luis Mª Tolosana
-
