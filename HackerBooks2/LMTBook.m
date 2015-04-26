@@ -21,10 +21,10 @@
 
 -(void) setIsFavorite:(NSNumber *)isFavorite{
     
-    if ([isFavorite  isEqual: @1]) {
+    if ([isFavorite  isEqual: @YES]) {
         [self insertFavoriteTag];
         
-    }else if ([isFavorite  isEqual: @0]){
+    }else if ([isFavorite  isEqual: @NO]){
         [self removeFavoriteTag];
     }
     
@@ -86,7 +86,8 @@
      LMTBook *book = [self insertInManagedObjectContext:context];
     
     book.title = [dict objectForKey:@"title"];
-    book.isFavorite = [NSNumber numberWithInt:0];
+//    book.isFavorite = [NSNumber numberWithInt:0];
+    book.isFavorite = @NO;
     
     NSArray *authors = [[dict objectForKey:@"authors"] componentsSeparatedByString:@", "];
     for (NSString *author in authors) {

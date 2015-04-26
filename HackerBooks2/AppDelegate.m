@@ -37,48 +37,47 @@
     // creamos una instancia del stack
     self.stack = [AGTCoreDataStack coreDataStackWithModelName:@"Model"];
 
-//    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-//    NSString *str = [def objectForKey:JSON_LOCAL_URL];
-//    
-//    if (str == nil) {
-        // It's the first time
-
-    // Descargamos y procesamos el JSON
-//        [self downloadAndProcessJSONWithcompletionBlock:^{
-
-//            }];
-//    [self downloadAndProcessJSON];
-//    }
 
     // Buscar
-    NSFetchRequest *req1 = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
-    
-    req1.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-    //    req.fetchBatchSize = 20;
-    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
-    
-    NSArray *results = [self.stack executeFetchRequest:req1
-                                            errorBlock:^(NSError *error) {
-                                                NSLog(@"error al buscar! %@", error);
-                                            }];
-    for (NSString *author in results) {
-        NSLog(@"Author: %@", [author valueForKey:@"name"]);
-    }
+//    NSFetchRequest *req1 = [NSFetchRequest fetchRequestWithEntityName:[LMTAuthor entityName]];
+//    
+//    req1.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTAuthorAttributes.name
+//                                                           ascending:YES
+//                                                            selector:@selector(caseInsensitiveCompare:)]];
+//    //    req.fetchBatchSize = 20;
+//    //    req.predicate = [NSPredicate predicateWithFormat:@"notebook = %@", exs];
+//    
+//    NSArray *results = [self.stack executeFetchRequest:req1
+//                                            errorBlock:^(NSError *error) {
+//                                                NSLog(@"error al buscar! %@", error);
+//                                            }];
+//    for (NSString *author in results) {
+//        NSLog(@"Author: %@", [author valueForKey:@"name"]);
+//    }
 
 
     NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:[LMTTag entityName]];
     req.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:LMTTagAttributes.name
                                                           ascending:YES
                                                            selector:@selector(compare:)]];
-    
+
+    NSArray *tags = [self.stack executeFetchRequest:req
+                                            errorBlock:^(NSError *error) {
+                                                NSLog(@"error al buscar! %@", error);
+                                            }];
+  
     req.fetchBatchSize = 20;
     
     NSFetchedResultsController *fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
                                                                          managedObjectContext:self.stack.context
                                                                            sectionNameKeyPath:LMTTagAttributes.name
                                                                                     cacheName:nil];
-    if (!fc.fetchedObjects) {
+    if (![tags count]) {
         [self downloadAndProcessJSON];
+        fc = [[NSFetchedResultsController alloc] initWithFetchRequest:req
+                                                 managedObjectContext:self.stack.context
+                                                   sectionNameKeyPath:LMTTagAttributes.name
+                                                            cacheName:nil];
         [self.stack saveWithErrorBlock:^(NSError *error) {
             NSLog(@"Error al guardar! %@", error);
         }];
@@ -110,11 +109,19 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [self.stack saveWithErrorBlock:^(NSError *error) {
+        NSLog(@"Error al guardar! %@", error);
+    }];
+
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self.stack saveWithErrorBlock:^(NSError *error) {
+        NSLog(@"Error al guardar! %@", error);
+    }];
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
